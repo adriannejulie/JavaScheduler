@@ -7,7 +7,7 @@ public class Schedule {
      * constructor
      */
 
-     public Schedule(Task[] tasks, Coyote[] coyotes, Fox[] fox, Porcupine[] porcupines, Beaver[] beavers, Racoon[] racoons) throws VolunteerNeededException{
+     public Schedule(Task[] tasks, Coyote[] coyotes, Fox[] fox, Porcupine[] porcupines, Beaver[] beavers, Raccoon[] racoons) throws VolunteerNeededException{
 
      }
 }
