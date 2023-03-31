@@ -5,4 +5,9 @@ public class Coyote extends Animal{
     private static int FOOD_PREP = 10;
     private static int FEED_DURATION = 5;
     private static int CLEAN_TIME = 5;
+
+    public Coyote(int animalID, String animalNickname){
+
+        super(animalID, animalNickname);
+    }
 }
