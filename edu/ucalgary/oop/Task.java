@@ -15,6 +15,11 @@ public class Task {
      */
 
      public Task(int taskID, String description, int duration, int maxWindow, int startHour, int animalID) {
-         
+         this.taskID = taskID;
+         this.description = description;
+         this.duration = duration;
+         this.maxWindow = maxWindow;
+         this.startHour = startHour;
+         this.animalID = animalID;
      }
 }
