@@ -10,7 +10,6 @@ package edu.ucalgary.oop;
 import java.sql.*;
 import java.util.*;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.time.*;
 /*
 * Client is a client for the user to interact with that generates a schedule based on the database provided
@@ -30,16 +29,14 @@ public class Client{
     private Connection dbConnect;
     private ResultSet results;
 
-    private boolean[] volunteerNeeded;
 
+    private ArrayList<Integer> volunteerHours;
     /*
     * Constructor that connects to the MySQL database and retrieves data ***CHANGE USER AND PASS LATER
     * PARAMATERS: NONE
     * PROMIMSES: DATA STORED INTO VALUES, NO RETURN VALUE
     */
     public Client(){
-
-        Arrays.fill(this.volunteerNeeded, false);
 
         //Open a connection to the database
         try{
@@ -172,6 +169,9 @@ public class Client{
             e.printStackTrace();
         }
 
+        
+
+
 
 
 
@@ -179,20 +179,33 @@ public class Client{
     }
 
     /*
+     * Creates a schedule which will throw VolunteerNeededException if there are any volunteer needed.
+     * REQUIRES: NONE 
+     * PROMISES: NONE
+     */
+
+    public void buildSchedule() throws VolunteerNeededException{
+
+        this.schedule = new Schedule(treatments, coyotes, foxes, porcupines, beavers, raccoons);
+
+        try{
+
+            this.schedule.buildSchedule();
+        }
+        catch (VolunteerNeededException v ){
+
+            this.volunteerHours = this.schedule.getVolunteerHours();
+            throw new VolunteerNeededException();
+        }
+
+    }
+    /*
     * uploadSchedule() will create a new schedule object with the data obtained. It will throw a VolunteerNeededException which will be passed to the GUI. NOTE THAT THE SCHEDULE OBJECT SHOULD HAVE BE A MATRIX OF FORMATTED STRINGS (set the example .txt file for details)
     * REQUIRES: NONE
     * PROMISES: NONE
     */
-    public void uploadSchedule() throws VolunteerNeededException{
+    public void uploadSchedule(){
 
-        try{
-
-            this.schedule = new Schedule(treatments, coyotes, foxes, porcupines, beavers, raccoons);
-        }
-        catch (VolunteerNeededException v ){
-
-            throw new VolunteerNeededException();
-        }
 
 
         String[][] draftedSch = this.schedule.getScheduleTime();
@@ -210,7 +223,7 @@ public class Client{
 
                 if(hour.length != 0){
 
-                    if(this.volunteerNeeded[currentHour]){
+                    if(this.volunteerHours.contains(currentHour + 1)){
 
                         outFile.write(String.format("%d:00 [+ backup volunteer]", currentHour + 1));
                     }
@@ -276,32 +289,7 @@ public class Client{
     public Raccoon[] getRaccoons() {return this.raccoons;}
     public Coyote[] getCoyotes() {return this.coyotes;}
     public Beaver[] getBeavers() {return this.beavers;}
-
-    public void setVolunteerNeeded(int hour) {
-
-        //List<Boolean> boolList = Arrays.asList(this.volunteerNeeded);
-        ArrayList<Boolean> boolList = new ArrayList<Boolean>();
-
-        for (Boolean b : this.volunteerNeeded){
-
-            boolList.add(b);
-        }
-        
-        boolList.set(hour, true);
-
-
-        boolean[] newV = {};
-        int i = 0;
-        for (Boolean b : boolList){
-        
-            newV[i] = b;
-            i++;
-        }
-
-        this.volunteerNeeded = newV;
-    }
-
-
+    public void setTreatments(Task[] newTasks){ this.treatments = newTasks;}
     /*
      * Returns a task from the given id. If there is more than one, return first one 
      * REQUIRES: The id of the wanted task
