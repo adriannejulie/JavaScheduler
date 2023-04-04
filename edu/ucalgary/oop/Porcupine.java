@@ -10,16 +10,16 @@ public class Porcupine extends Animal{
     public Porcupine(int animalID, String animalNickname){
         super(animalID, animalNickname);
     }
-    public  int[] getFeedHour(){
+    public static int[] getFeedHour(){
         return FEED_HOUR;
     }
-    public int getFoodPrep(){
+    public static int getFoodPrep(){
         return FOOD_PREP;
     }
-    public int getFeedDuration(){
+    public static int getFeedDuration(){
         return FEED_DURATION;
     }
-    public int getCleanTime(){
+    public static int getCleanTime(){
         return CLEAN_TIME;
     }
 }
