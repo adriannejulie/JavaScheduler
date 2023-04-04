@@ -12,7 +12,7 @@ public class Schedule {
     private ArrayList<String>[] scheduleTime;
 	private ArrayList<Task>[] scheduleTasks;
 	private int[] hourTimes;
-	private int volunteerHour = null;
+	private int volunteerHour = -1;
 	private boolean[] trueVolunteerHours;
 	private int coyoteNumber = 0;
 	private int foxNumber = 0;
@@ -34,7 +34,7 @@ public class Schedule {
 		this.hourTimes = new int[24];
         this.scheduleTime = new ArrayList[24];
 		this.scheduleTasks = new ArrayList[24];
-		this.trueVolunteerHours = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+		this.trueVolunteerHours = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 		for(int i = 0; i < this.scheduleTime.length; i++){
 			this.scheduleTime[i] = new ArrayList<String>();
 			this.scheduleTask[i] = new ArrayList<Task>();
@@ -283,10 +283,10 @@ public class Schedule {
 					this.scheduleTime[i].add("Cage Cleaning - raccoon (" + raccoonCageNum + ": " + raccoonCleaned.toString() + ")");
 				}
 			}
-			if(this.volunteerHour != null && this.trueVolunteerHours[i] == false){
+			if(this.volunteerHour != -1 && this.trueVolunteerHours[i] == false){
 				throw new VolunteerNeededException();
 			}
-			else if(this.volunteerHour != null && this.trueVolunteerHours[i] == true){
+			else if(this.volunteerHour != -1 && this.trueVolunteerHours[i] == true){
 				throw new VetNeededException();
 			}
         }
