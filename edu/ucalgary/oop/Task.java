@@ -1,6 +1,5 @@
 package edu.ucalgary.oop;
 
-import java.sql.ResultSet;
 
 public class Task {
     private int taskID;

@@ -36,12 +36,14 @@ public class Schedule {
         this.scheduleTime = new ArrayList[24];
 		this.scheduleTasks = new ArrayList[24];
 
-		this.trueVolunteerHours = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+		this.trueVolunteerHours = new boolean[24];
+
 
 		for(int i = 0; i < this.scheduleTime.length; i++){
 			this.scheduleTime[i] = new ArrayList<String>();
-			this.scheduleTask[i] = new ArrayList<Task>();
+			this.scheduleTasks[i] = new ArrayList<Task>();
 			this.hourTimes[i] = 60;
+			this.trueVolunteerHours[i] = false;
         }
     }
 
@@ -62,12 +64,12 @@ public class Schedule {
      */
     public void buildSchedule(Task[] tasks, Coyote[] coyotes, Fox[] foxes, Porcupine[] porcupines, Beaver[] beavers, Raccoon[] raccoons) throws VolunteerNeededException, VetNeededException{
 		this.hourTimes = new int[24];
-		this.volunteerHour = null;
+		this.volunteerHour = -1;
         this.scheduleTime = new ArrayList[24];
 		this.scheduleTasks = new ArrayList[24];
 		for(int i = 0; i < this.scheduleTime.length; i++){
 			this.scheduleTime[i] = new ArrayList<String>();
-			this.scheduleTask[i] = new ArrayList<Task>();
+			this.scheduleTasks[i] = new ArrayList<Task>();
 			this.hourTimes[i] = 60;
         }
 		this.findNumberOfAnimals(coyotes, foxes, porcupines, beavers, raccoons);
@@ -86,13 +88,13 @@ public class Schedule {
 				if(j.getStartHour() == i){
 					String animalName = this.findAnimalName(j, coyotes, foxes, porcupines, beavers, raccoons);
 					this.hourTimes[i] = this.hourTimes[i] - j.getDuration();
-					this.scheduleTime[i].add(j.getDescription + " (" + animalName + ")");
+					this.scheduleTime[i].add(j.getDescription() + " (" + animalName + ")");
 					this.scheduleTasks[i].add(j);
 					if(j.getTaskID() == 1){
 						int idx = 0;
 						Coyote[] newCoyotes = new Coyote[coyotes.length - 1];
 						for(int k = 0; k < coyotes.length; k++){
-							if(j.getAnimalID != coyotes[k].getAnimalID){
+							if(j.getAnimalID() != coyotes[k].getAnimalID()){
 								newCoyotes[idx] = coyotes[k];
 								idx++;
 							}
