@@ -6,14 +6,17 @@ import javax.swing.*;
 import java.awt.event.*;
 
 
-public class ScheduleGUI extends JFrame {
+public class ScheduleGUI extends JFrame implements MouseListener {
     private JLabel instructions;
     private Client client;
+    private String taskName;
+    private JLabel newTask;
+    private JTextField taskInput;
     
 
     public ScheduleGUI(JFrame frame) {
        
-
+/* 
         instructions = new JLabel("Would you like to generate the schedule?");
 
         JButton generateSchedule = new JButton("Generate Schedule");
@@ -32,29 +35,50 @@ public class ScheduleGUI extends JFrame {
                     JOptionPane.showMessageDialog(frame, "Schedule cannot be generated with the requirements given.\nPlease change task requirements.");
                 }
             }
-        });
-        /*
-         instructions = new JLabel("Would you like to generate the schedule?");
+        }); */
+        
+        instructions = new JLabel("Would you like to generate the schedule?");
         JButton generateSchedule = new JButton("Generate Schedule");
         
         generateSchedule.addActionListener(e -> {
-            try{
-                Client client = new Client();
+            Client client = new Client();
+            try {
                 client.uploadSchedule();
-                JOptionPane.showConfirmDialog(frame, "The schedule requires a volunteer. \nIs a volunteer available?");
-            } catch (VolunteerNeededException ex) {
-                int vetAvailable = JOptionPane.showConfirmDialog(frame, "No volunteer is available.\nIs a vet available to change the animal's medical requirements?");
-                if (vetAvailable == JOptionPane.YES_OPTION) {
+            } catch (VolunteerNeededException v) {
+                int volunteerAvailability = JOptionPane.showConfirmDialog(frame, "The schedule requires a volunteer. \nIs a volunteer available?");
+                if (volunteerAvailability == JOptionPane.YES_OPTION) {
                     generateSchedule.doClick();
-                }
-                else {
-                    JOptionPane.showMessageDialog(frame, "Schedule cannot be generated with the requirements given.\nPlease change task requirements.");
+                } else {
+                    int vetAvailable = JOptionPane.showConfirmDialog(frame, "No volunteer is available.\nIs a vet available to change the animal's medical requirements?");
+                    if (vetAvailable == JOptionPane.YES_OPTION) {
+
+                        /*
+                         * Should we have multiple input text boxes that defines int taskID, 
+                         * String description, int duration, int maxWindow, int startHour, int animalID?
+                         * 
+                         * 
+                         */
+
+                         //This implementation is wrong, Task is not taking inputs correctly
+                        /*taskInput = new JTextField("Feeding", 15);
+                        JPanel panel = new JPanel();
+                        panel.add(new JLabel ("New Task: "));
+                        panel.add(taskInput);
+                      
+                        int result = JOptionPane.showConfirmDialog(frame, panel, "Enter the new medical task", JOptionPane.OK_CANCEL_OPTION);
+
+                        if (result == JOptionPane.OK_OPTION) {
+                            Task newTask = taskInput.getText();
+                            client.changeMedicalTask(newTask);
+                            generateSchedule.doClick();
+                        }*/
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(frame, "Schedule cannot be generated with the requirements given.\nPlease change task requirements.");
+                    }
                 }
             }
         });
-         */
-
-        
         
         //Layout is not centered :( fix it
         JPanel panel = new JPanel();
@@ -82,5 +106,28 @@ public class ScheduleGUI extends JFrame {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);           
         });
     }
+    public void mouseClicked(MouseEvent event){
+        
+        if(event.getSource().equals(taskInput))
+            taskInput.setText("");
+
+    }
+
+    public void mouseEntered(MouseEvent event){
+        
+    }
+
+    public void mouseExited(MouseEvent event){
+        
+    }
+
+    public void mousePressed(MouseEvent event){
+        
+    }
+
+    public void mouseReleased(MouseEvent event){
+        
+    }
+    
     
 }
