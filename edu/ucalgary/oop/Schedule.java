@@ -105,7 +105,7 @@ public class Schedule {
 				int fedCoyotes = 0;
 				int[] coyoteFeedingTimes = Coyote.getFeedHour();
 				if(i == coyoteFeedingTimes[0] || i == coyoteFeedingTimes[1] || i == coyoteFeedingTimes[2]){
-					if(this.hourTimes[i] > (Coyote.getFoodPrep() + Coyote.getFeedDuration() && this.coyoteNumber > 0)){
+					if(this.hourTimes[i] > (Coyote.getFoodPrep() + Coyote.getFeedDuration()) && this.coyoteNumber > 0){
 						this.hourTimes[i] = this.hourTimes[i] - Coyote.getFoodPrep();
 						while((hourTimes[i] - Coyote.getFeedDuration()) > 0 && this.coyoteNumber > 0){
 							this.coyoteNumber = this.coyoteNumber - 1;
