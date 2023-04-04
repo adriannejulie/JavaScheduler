@@ -2,7 +2,7 @@
 /**
 @author Braden Vivas
 braden.vivas@ucalgary.ca
-@version 1.0
+@version 1.3
 @since 1.0
 */
 
@@ -170,6 +170,8 @@ public class Client{
         }
 
         
+        //Initialize a new schedule
+        this.schedule = new Schedule(treatments, coyotes, foxes, porcupines, beavers, raccoons);
 
 
 
@@ -186,7 +188,6 @@ public class Client{
 
     public void buildSchedule() throws VolunteerNeededException{
 
-        this.schedule = new Schedule(treatments, coyotes, foxes, porcupines, beavers, raccoons);
 
         try{
 
@@ -208,7 +209,7 @@ public class Client{
 
 
 
-        String[][] draftedSch = this.schedule.getScheduleTime();
+        ArrayList<String>[] draftedSch = this.schedule.getScheduleTime();
 
         int currentHour = 0;
 
@@ -219,10 +220,11 @@ public class Client{
             String header = new String("Schedule for " + LocalDate.now());
             outFile.write(header);
             outFile.write("\n");
-            for (String[] hour : draftedSch){
+            for (ArrayList<String> hour : draftedSch){
 
-                if(hour.length != 0){
+                if(hour.size() != 0){
 
+                    //Print title
                     if(this.volunteerHours.contains(currentHour + 1)){
 
                         outFile.write(String.format("%d:00 [+ backup volunteer]", currentHour + 1));
@@ -231,6 +233,7 @@ public class Client{
                         outFile.write(String.format("%d:00", currentHour));
                     }
 
+                    //Print each task in hour
                     for(String taskString : hour){
 
                         outFile.write(taskString);
@@ -289,6 +292,7 @@ public class Client{
     public Raccoon[] getRaccoons() {return this.raccoons;}
     public Coyote[] getCoyotes() {return this.coyotes;}
     public Beaver[] getBeavers() {return this.beavers;}
+    public Schedule getSchedule() {return this.schedule;}
     public void setTreatments(Task[] newTasks){ this.treatments = newTasks;}
     /*
      * Returns a task from the given id. If there is more than one, return first one 
