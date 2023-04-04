@@ -30,7 +30,7 @@ public class Client{
     private ResultSet results;
 
 
-    private ArrayList<Integer> volunteerHours;
+    private int volunteerHour;
     /*
     * Constructor that connects to the MySQL database and retrieves data ***CHANGE USER AND PASS LATER
     * PARAMATERS: NONE
@@ -194,7 +194,7 @@ public class Client{
      * PROMISES: NONE
      */
 
-    public void buildSchedule() throws VolunteerNeededException{
+    public void buildSchedule() throws VolunteerNeededException, VetNeededException{
 
 
         try{
@@ -203,8 +203,12 @@ public class Client{
         }
         catch (VolunteerNeededException v ){
 
-            this.volunteerHours = this.schedule.getVolunteerHours();
+            this.volunteerHour = this.schedule.getVolunteerHour();
             throw new VolunteerNeededException();
+        }
+        catch (VetNeededException n){
+
+            throw new VetNeededException();
         }
 
     }
@@ -216,6 +220,8 @@ public class Client{
     public void uploadSchedule(){
 
 
+
+        boolean[] vNeeded = this.schedule.getTrueVolunteerHours();
 
         if (this.schedule != null){
         
@@ -235,9 +241,9 @@ public class Client{
                 if(hour.size() != 0){
 
                     //Print title
-                    if(this.volunteerHours.contains(currentHour + 1)){
+                    if(vNeeded[currentHour]){
 
-                        outFile.write(String.format("%d:00 [+ backup volunteer]", currentHour + 1));
+                        outFile.write(String.format("%d:00 [+ backup volunteer]", currentHour));
                     }
                     else{
                         outFile.write(String.format("%d:00", currentHour));
@@ -284,9 +290,11 @@ public class Client{
                 taskList.set(i, task);
                 break;
             }
+            i++;
         }
 
-        this.treatments = taskList.toArray(this.treatments);
+        Task[] taskArr = new Task[taskList.size()];
+        this.treatments = taskList.toArray(taskArr);
 
     }
 
