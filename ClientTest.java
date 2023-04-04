@@ -1,13 +1,17 @@
-/**
-@author Braden Vivas
-braden.vivas@ucalgary.ca
-@version 1.2
-@since 1.0
-*/
 
-package edu.ucalgary.oop;
+
 
 import org.junit.Test;
+
+import edu.ucalgary.oop.Beaver;
+import edu.ucalgary.oop.Client;
+import edu.ucalgary.oop.Coyote;
+import edu.ucalgary.oop.Fox;
+import edu.ucalgary.oop.Porcupine;
+import edu.ucalgary.oop.Raccoon;
+import edu.ucalgary.oop.Task;
+import edu.ucalgary.oop.VolunteerNeededException;
+
 import static org.junit.Assert.*;
 
 import java.io.*;

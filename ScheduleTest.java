@@ -1,7 +1,16 @@
-package edu.ucalgary.oop;
+
+
 
 import java.util.*;
 import org.junit.Test;
+
+import edu.ucalgary.oop.Beaver;
+import edu.ucalgary.oop.Coyote;
+import edu.ucalgary.oop.Fox;
+import edu.ucalgary.oop.Porcupine;
+import edu.ucalgary.oop.Schedule;
+import edu.ucalgary.oop.Task;
+
 import static org.junit.Assert.*;
 
 public class ScheduleTest{
