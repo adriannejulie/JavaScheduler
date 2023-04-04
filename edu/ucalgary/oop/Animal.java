@@ -1,3 +1,11 @@
+/**
+  @author Bernard Aire
+  bernard.aire@ucalgary.ca
+  @version 1.0
+  @since 1.0
+ */
+
+
 package edu.ucalgary.oop;
 
 public class Animal {
@@ -9,7 +17,26 @@ public class Animal {
      * 
      */
     public Animal (int animalID, String animalNickname) {
+        this.animalID = animalID;
+        this.animalNickname = animalNickname;
 
     }
+    public int getAnimalID(){
+        return this.animalID;
+
+    }
+    public String getAnimalNickName(){
+        return this.animalNickname;
+
+    }
+    
+    public void setAnimalID(int animalID){
+        this.animalID = animalID;
+    }
+    public void setAnimalNickname(String animalNickname){
+        this.animalNickname = animalNickname;
+    }
+    
 
 }
+
