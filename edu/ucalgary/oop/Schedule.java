@@ -10,18 +10,20 @@ import java.util.*;
 
 public class Schedule {
     private ArrayList<String>[] scheduleTime;
+	private ArrayList<Task>[] scheduleTasks;
 	private int[] hourTimes;
-	private ArrayList<Integer> volunteerHours;
+	private int volunteerHour = null;
+	private boolean[] trueVolunteerHours;
 	private int coyoteNumber = 0;
 	private int foxNumber = 0;
 	private int porcupineNumber = 0;
 	private int beaverNumber = 0;
-	private int racoonNumber = 0;
+	private int raccoonNumber = 0;
 	private int coyoteCages = 0;
 	private int foxCages = 0;
 	private int porcupineCages = 0;
 	private int beaverCages = 0;
-	private int racoonCages = 0;
+	private int raccoonCages = 0;
 
     /**
      * constructs a new Schedule object with empty array's/ArrayList's 
@@ -31,9 +33,11 @@ public class Schedule {
     public Schedule() {
 		this.hourTimes = new int[24];
         this.scheduleTime = new ArrayList[24];
-		this.volunteerHours = new ArrayList<Integer>();
+		this.scheduleTasks = new ArrayList[24];
+		this.trueVolunteerHours = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
 		for(int i = 0; i < this.scheduleTime.length; i++){
 			this.scheduleTime[i] = new ArrayList<String>();
+			this.scheduleTask[i] = new ArrayList<Task>();
 			this.hourTimes[i] = 60;
         }
     }
@@ -51,22 +55,24 @@ public class Schedule {
 	 * @param foxes an array of Fox objects within the system
 	 * @param porcupines an array of Porcupine objects within the system
 	 * @param beavers an array of Beaver objects within the system
-	 * @param racoons an array of Racoon objects within the system
+	 * @param raccoons an array of raccoon objects within the system
      */
-    public void buildSchedule(Task[] tasks, Coyote[] coyotes, Fox[] foxes, Porcupine[] porcupines, Beaver[] beavers, Racoon[] racoons, boolean[] trueVolunteerHours) throws VolunteerNeededException{
+    public void buildSchedule(Task[] tasks, Coyote[] coyotes, Fox[] foxes, Porcupine[] porcupines, Beaver[] beavers, Raccoon[] raccoons) throws VolunteerNeededException, VetNeededException{
 		this.hourTimes = new int[24];
+		this.volunteerHour = null;
         this.scheduleTime = new ArrayList[24];
-		this.volunteerHours = new ArrayList<Integer>();
+		this.scheduleTasks = new ArrayList[24];
 		for(int i = 0; i < this.scheduleTime.length; i++){
 			this.scheduleTime[i] = new ArrayList<String>();
+			this.scheduleTask[i] = new ArrayList<Task>();
 			this.hourTimes[i] = 60;
         }
-		this.findNumberOfAnimals(coyotes, foxes, porcupines, beavers, racoons);
+		this.findNumberOfAnimals(coyotes, foxes, porcupines, beavers, raccoons);
 		this.coyoteCages = this.coyoteNumber;
 		this.foxCages = this.foxNumber;
 		this.porcupineCages = this.porcupineNumber;
 		this.beaverCages = this.beaverNumber;
-		this.racoonCages = this.racoonNumber;
+		this.raccoonCages = this.raccoonNumber;
         for(int i = 0; i < this.scheduleTime.length; i++){
 			for(int l = 0; l < 24; l++){
 				if(trueVolunteerHours[l] == true){
@@ -75,9 +81,10 @@ public class Schedule {
 			}
 			for(Task j:tasks){
 				if(j.getStartHour() == i){
-					String animalName = this.findAnimalName(j, coyotes, foxes, porcupines, beavers, racoons);
+					String animalName = this.findAnimalName(j, coyotes, foxes, porcupines, beavers, raccoons);
 					this.hourTimes[i] = this.hourTimes[i] - j.getDuration();
 					this.scheduleTime[i].add(j.getDescription + " (" + animalName + ")");
+					this.scheduleTasks[i].add(j);
 					if(j.getTaskID() == 1){
 						int idx = 0;
 						Coyote[] newCoyotes = new Coyote[coyotes.length - 1];
@@ -92,7 +99,7 @@ public class Schedule {
 				}
 			}
 			if(this.hourTimes[i] < 0){
-				this.volunteerHours.add(i);
+				this.volunteerHour = i;
 			}
 			while(this.hourTimes[i] > 0){
 				int fedCoyotes = 0;
@@ -175,24 +182,24 @@ public class Schedule {
 						this.scheduleTime[i].add("Feeding - beaver (" + fedBeavers + ": " + beaverNames.toString() + ")");
 					}
 				}
-				int fedRacoons = 0;
-				int[] racoonFeedingTimes = Racoon.getFeedHour();
-				if(i == racoonFeedingTimes[0] || i == racoonFeedingTimes[1] || i == racoonFeedingTimes[2]){
-					if(this.hourTimes[i] > (Racoon.getFoodPrep() + Racoon.getFeedDuration()) && this.racoonNumber > 0){
-						this.hourTimes[i] = this.hourTimes[i] - Racoon.getFoodPrep();
-						while((hourTimes[i] - Racoon.getFeedDuration()) > 0 && this.racoonNumber > 0){
-							this.racoonNumber = this.racoonNumber - 1;
-							this.hourTimes[i] = this.hourTimes[i] - Racoon.getFeedDuration();
-							fedRacoons = fedRacoons + 1;
+				int fedRaccoons = 0;
+				int[] raccoonFeedingTimes = Raccoon.getFeedHour();
+				if(i == raccoonFeedingTimes[0] || i == raccoonFeedingTimes[1] || i == raccoonFeedingTimes[2]){
+					if(this.hourTimes[i] > (Raccoon.getFoodPrep() + Raccoon.getFeedDuration()) && this.raccoonNumber > 0){
+						this.hourTimes[i] = this.hourTimes[i] - Raccoon.getFoodPrep();
+						while((hourTimes[i] - Raccoon.getFeedDuration()) > 0 && this.raccoonNumber > 0){
+							this.raccoonNumber = this.raccoonNumber - 1;
+							this.hourTimes[i] = this.hourTimes[i] - Raccoon.getFeedDuration();
+							fedRaccoons = fedRaccoons + 1;
 						}
-						StringBuilder racoonNames = new StringBuilder();
-						for(int k = 0; k <= fedRacoons; k++){
-							racoonNames.append(racoons[k].getAnimalName());
-							if(k != fedRacoons){
-								racoonNames.append(", ");
+						StringBuilder raccoonNames = new StringBuilder();
+						for(int k = 0; k <= fedRaccoons; k++){
+							raccoonNames.append(raccoons[k].getAnimalName());
+							if(k != fedRaccoons){
+								raccoonNames.append(", ");
 							}
 						}
-						this.scheduleTime[i].add("Feeding - racoon (" + fedRacoons + ": " + racoonNames.toString() + ")");
+						this.scheduleTime[i].add("Feeding - raccoon (" + fedRaccoons + ": " + raccoonNames.toString() + ")");
 					}
 				}
 				if(this.hourTimes[i] > Coyote.getCleanTime()){
@@ -259,27 +266,30 @@ public class Schedule {
 					}
 					this.scheduleTime[i].add("Cage Cleaning - beaver (" + beaverCageNum + ": " + beaverCleaned.toString() + ")");
 				}
-				if(this.hourTimes[i] > Racoon.getCleanTime()){
-					int racoonCageNum = 0;
-					while((hourTimes[i] - Racoon.getCleanTime()) > 0 && this.racoonCages > 0){
-						this.racoonCages = this.racoonCages - 1;
-						this.hourTimes[i] = this.hourTimes[i] - Racoon.getCleanTime();
-						racoonCageNum = racoonCageNum + 1;
+				if(this.hourTimes[i] > Raccoon.getCleanTime()){
+					int raccoonCageNum = 0;
+					while((hourTimes[i] - Raccoon.getCleanTime()) > 0 && this.raccoonCages > 0){
+						this.raccoonCages = this.raccoonCages - 1;
+						this.hourTimes[i] = this.hourTimes[i] - Raccoon.getCleanTime();
+						raccoonCageNum = raccoonCageNum + 1;
 					}
-					StringBuilder racoonCleaned = new StringBuilder();
-					for(int k = 0; k <= racoonCageNum; k++){
-						racoonCleaned.append(racoons[k].getAnimalName());
-						if(k != racoonCageNum){
-							racoonCleaned.append(", ");
+					StringBuilder raccoonCleaned = new StringBuilder();
+					for(int k = 0; k <= raccoonCageNum; k++){
+						raccoonCleaned.append(raccoons[k].getAnimalName());
+						if(k != raccoonCageNum){
+							raccoonCleaned.append(", ");
 						}
 					}
-					this.scheduleTime[i].add("Cage Cleaning - racoon (" + racoonCageNum + ": " + racoonCleaned.toString() + ")");
+					this.scheduleTime[i].add("Cage Cleaning - raccoon (" + raccoonCageNum + ": " + raccoonCleaned.toString() + ")");
 				}
 			}
+			if(this.volunteerHour != null && this.trueVolunteerHours[i] == false){
+				throw new VolunteerNeededException();
+			}
+			else if(this.volunteerHour != null && this.trueVolunteerHours[i] == true){
+				throw new VetNeededException();
+			}
         }
-		if(!this.volunteerHours.isEmpty()){
-			throw new VolunteerNeededException();
-		}
     }
 	 
 	 /**
@@ -291,10 +301,10 @@ public class Schedule {
 	 * @param foxes an array of Fox objects within the system
 	 * @param porcupines an array of Porcupine objects within the system
 	 * @param beavers an array of Beaver objects within the system
-	 * @param racoons an array of Racoon objects within the system
+	 * @param raccoons an array of raccoon objects within the system
 	 * @return the name of the animal attached to the entered task
      */
-	public String findAnimalName(Task j, Coyote[] coyotes, Fox[] foxes, Porcupine[] porcupines, Beaver[] beavers, Racoon[] racoons){
+	public String findAnimalName(Task j, Coyote[] coyotes, Fox[] foxes, Porcupine[] porcupines, Beaver[] beavers, Raccoon[] raccoons){
 		String animalName = "";
 		for(Coyote coyote:coyotes){
 			if(j.getAnimalID() == coyote.getAnimalID()){
@@ -316,9 +326,9 @@ public class Schedule {
 				animalName = beaver.getAnimalName();
 			}
 		}
-		for(Racoon racoon:racoons){
-			if(j.getAnimalID() == racoon.getAnimalID()){
-				animalName = racoon.getAnimalName();
+		for(Raccoon raccoon:raccoons){
+			if(j.getAnimalID() == raccoon.getAnimalID()){
+				animalName = raccoon.getAnimalName();
 			}
 		}
 		return animalName;
@@ -333,14 +343,14 @@ public class Schedule {
 	 * @param foxes an array of Fox objects within the system
 	 * @param porcupines an array of Porcupine objects within the system
 	 * @param beavers an array of Beaver objects within the system
-	 * @param racoons an array of Racoon objects within the system
+	 * @param raccoons an array of raccoon objects within the system
      */
-	public void findNumberOfAnimals(Coyote[] coyotes, Fox[] foxes, Porcupine[] porcupines, Beaver[] beavers, Racoon[] racoons){
+	public void findNumberOfAnimals(Coyote[] coyotes, Fox[] foxes, Porcupine[] porcupines, Beaver[] beavers, Raccoon[] raccoons){
 		int coyotesNum = 0;
 		int foxesNum = 0;
 		int porcupinesNum = 0;
 		int beaversNum = 0;
-		int racoonsNum = 0;
+		int raccoonsNum = 0;
 		for(Coyote coyote:coyotes){
 			coyotesNum = coyotesNum + 1;
 		}
@@ -353,22 +363,42 @@ public class Schedule {
 		for(Beaver beaver:beavers){
 			beaversNum = beaversNum + 1;
 		}
-		for(Racoon racoon:racoons){
-			racoonsNum = racoonsNum + 1;
+		for(Raccoon raccoon:raccoons){
+			raccoonsNum = raccoonsNum + 1;
 		}
 		this.coyoteNumber = coyotesNum;
 		this.foxNumber = foxesNum;
 		this.porcupineNumber = porcupinesNum;
 		this.beaverNumber = beaversNum;
-		this.racoonNumber = racoonsNum;
+		this.raccoonNumber = raccoonsNum;
 	}
-	 /**
-     * returns the private ArrayList<Integer> volunteerHours
+
+	/**
+     * sets an hours boolean in an arrray to true at the passed index
 	 * 
-	 * @return the ArrayList<Integer> volunteerHours of the Schedule object
+	 * @param hour this is the index of which hours to change to true
      */
-	public ArrayList<Integer> getVolunteerHours(){
-		return this.volunteerHours;
+	public void setTrueVolunteerHoursByIndex(int hour){
+		this.trueVolunteerHours[hour] = true;
+	}
+
+	/**
+     * gets an hours boolean in an arrray at the passed index
+	 * 
+	 * @return volunteer the boolean of all hours
+     */
+	public boolean[] getTrueVolunteerHours(){
+		return this.trueVolunteerHours;
+	}
+
+
+	 /**
+     * returns the private ArrayList<Integer> volunteerHour
+	 * 
+	 * @return the ArrayList<Integer> volunteerHour of the Schedule object
+     */
+	public int getVolunteerHour(){
+		return this.volunteerHour;
 	}
 	
 	/**
@@ -378,5 +408,14 @@ public class Schedule {
      */
 	public ArrayList<String>[] getScheduleTime(){
 		return this.scheduleTime;
+	}
+
+	/**
+     * returns the private ArrayList<Task>[] scheduleTasks
+	 * 
+	 * @return the ArrayList<Task>[] scheduleTasks of the Schedule object
+     */
+	public ArrayList<Task>[] getScheduleTasks(){
+		return this.scheduleTasks;
 	}
 }
