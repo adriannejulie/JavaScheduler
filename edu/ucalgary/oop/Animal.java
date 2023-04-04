@@ -25,7 +25,7 @@ public class Animal {
         return this.animalID;
 
     }
-    public String getAnimalNickName(){
+    public String getAnimalName(){
         return this.animalNickname;
 
     }
