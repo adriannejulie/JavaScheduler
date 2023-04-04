@@ -2,7 +2,7 @@
 /**
 @author Braden Vivas
 braden.vivas@ucalgary.ca
-@version 1.3
+@version 1.4
 @since 1.0
 */
 
@@ -40,7 +40,7 @@ public class Client{
 
         //Open a connection to the database
         try{
-            this.dbConnect = DriverManager.getConnection("jdbc:mysql://localhost/EWR", "Marasco", "ensf");
+            this.dbConnect = DriverManager.getConnection("jdbc:mysql://localhost/EWR", "oop", "password");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,6 +62,7 @@ public class Client{
             this.coyotes = coyoteList.toArray(this.coyotes);
 
             myStmt.close();
+            results.close();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -82,6 +83,7 @@ public class Client{
             this.foxes = foxList.toArray(this.foxes);
 
             myStmt.close();
+            results.close();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -102,6 +104,7 @@ public class Client{
             this.porcupines = porcupineList.toArray(this.porcupines);
 
             myStmt.close();
+            results.close();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -122,6 +125,7 @@ public class Client{
             this.beavers = beaverList.toArray(this.beavers);
 
             myStmt.close();
+            results.close();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -142,6 +146,7 @@ public class Client{
             this.raccoons = raccoonList.toArray(this.raccoons);
 
             myStmt.close();
+            results.close();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -164,6 +169,9 @@ public class Client{
             }
 
             this.treatments = taskList.toArray(this.treatments);
+
+            myStmt.close();
+            results.close();
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -171,7 +179,7 @@ public class Client{
 
         
         //Initialize a new schedule
-        this.schedule = new Schedule(treatments, coyotes, foxes, porcupines, beavers, raccoons);
+        this.schedule = new Schedule();
 
 
 
@@ -191,7 +199,7 @@ public class Client{
 
         try{
 
-            this.schedule.buildSchedule();
+            this.schedule.buildSchedule(treatments, coyotes, foxes, porcupines, beavers, raccoons);
         }
         catch (VolunteerNeededException v ){
 
@@ -209,6 +217,8 @@ public class Client{
 
 
 
+        if (this.schedule != null){
+        
         ArrayList<String>[] draftedSch = this.schedule.getScheduleTime();
 
         int currentHour = 0;
@@ -252,6 +262,7 @@ public class Client{
             e.printStackTrace();
         }
 
+    }
         
 
     }
@@ -295,19 +306,47 @@ public class Client{
     public Schedule getSchedule() {return this.schedule;}
     public void setTreatments(Task[] newTasks){ this.treatments = newTasks;}
     /*
-     * Returns a task from the given id. If there is more than one, return first one 
-     * REQUIRES: The id of the wanted task
-     * PROMISES: A task in treatments that matches the given id
+     * Returns all tasks that match the given id. 
+     * REQUIRES: The id of the wanted task(s)
+     * PROMISES: An ArrayList of treatments that matches the given id
      */
 
-    public Task getTask(int id){
+    public ArrayList<Task> getTasks(int id){
+
+
+        ArrayList<Task> matchingTasks = new ArrayList<Task>();
 
         for (Task task : treatments){
 
             if (task.getTaskID() == id){
-                return task;
+
+                matchingTasks.add(task);
+                
             }
         }
+
+        return matchingTasks;
+
+    }
+
+    /*
+     * Close() closes the connection to the database.
+     * REQUIRES: NONE
+     * PROMISES: NONE
+     */
+
+    public void close(){
+
+        try {
+            
+            this.dbConnect.close();
+            this.dbConnect = null;
+            
+        } catch (SQLException s) {
+            System.out.println("Error closing connection with the database");
+            s.printStackTrace();
+        }
+
 
     }
 
