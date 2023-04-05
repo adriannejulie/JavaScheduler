@@ -81,16 +81,17 @@ public class Schedule {
         for(int i = 0; i < 24; i++){
 			System.out.println("Hour: " + i);
 			for(int l = 0; l < 24; l++){
-				if(trueVolunteerHours[l] == true){
+				if(trueVolunteerHours[l] == true && l == i){
 					this.hourTimes[i] = this.hourTimes[i] + 60;
 				}
 			}
+			System.out.println("HourTime" + this.hourTimes[i]);
 			System.out.println("Looping through Tasks");
 			for(Task j:tasks){
 				if(j.getStartHour() == i){
 					String animalName = this.findAnimalName(j, coyotes, foxes, porcupines, beavers, raccoons);
 					this.hourTimes[i] = this.hourTimes[i] - j.getDuration();
-					getScheduleTime().get(i).add(j.getDescription() + " (" + animalName + ")");
+					getScheduleTime().get(i).add("* " + j.getDescription() + " (" + animalName + ")");
 					this.scheduleTasks.get(i).add(j);
 					if(j.getTaskID() == 1){
 						int idx = 0;
@@ -122,12 +123,12 @@ public class Schedule {
 						}
 						StringBuilder coyoteNames = new StringBuilder();
 						for(int k = 0; k < fedCoyotes; k++){
-							coyoteNames.append(coyotes[k].getAnimalName()).append(", ");
-							if(k != fedCoyotes){
+							coyoteNames.append(coyotes[k].getAnimalName());
+							if(k != fedCoyotes - 1){
 								coyoteNames.append(", ");
 							}
 						}
-						this.scheduleTime.get(i).add("Feeding - coyote (" + fedCoyotes + ": " + coyoteNames.toString() + ")");
+						this.scheduleTime.get(i).add("* Feeding - coyote (" + fedCoyotes + ": " + coyoteNames.toString() + ")");
 					}
 				}
 				int fedFoxes = 0;
@@ -143,11 +144,11 @@ public class Schedule {
 						StringBuilder foxNames = new StringBuilder();
 						for(int k = 0; k < fedFoxes; k++){
 							foxNames.append(foxes[k].getAnimalName());
-							if(k != fedFoxes){
+							if(k != fedFoxes - 1){
 								foxNames.append(", ");
 							}
 						}
-						this.scheduleTime.get(i).add("Feeding - fox (" + fedFoxes + ": " + foxNames.toString() + ")");
+						this.scheduleTime.get(i).add("* Feeding - fox (" + fedFoxes + ": " + foxNames.toString() + ")");
 					}
 				}
 				int fedPorcupines = 0;
@@ -163,11 +164,11 @@ public class Schedule {
 						StringBuilder porcupineNames = new StringBuilder();
 						for(int k = 0; k < fedPorcupines; k++){
 							porcupineNames.append(porcupines[k].getAnimalName());
-							if(k != fedPorcupines){
+							if(k != fedPorcupines - 1){
 								porcupineNames.append(", ");
 							}
 						}
-						this.scheduleTime.get(i).add("Feeding - porcupine (" + fedPorcupines + ": " + porcupineNames.toString() + ")");
+						this.scheduleTime.get(i).add("* Feeding - porcupine (" + fedPorcupines + ": " + porcupineNames.toString() + ")");
 					}
 				}
 				int fedBeavers = 0;
@@ -183,11 +184,11 @@ public class Schedule {
 						StringBuilder beaverNames = new StringBuilder();
 						for(int k = 0; k < fedBeavers; k++){
 							beaverNames.append(beavers[k].getAnimalName());
-							if(k != fedBeavers){
+							if(k != fedBeavers - 1){
 								beaverNames.append(", ");
 							}
 						}
-						this.scheduleTime.get(i).add("Feeding - beaver (" + fedBeavers + ": " + beaverNames.toString() + ")");
+						this.scheduleTime.get(i).add("* Feeding - beaver (" + fedBeavers + ": " + beaverNames.toString() + ")");
 					}
 				}
 				int fedRaccoons = 0;
@@ -203,14 +204,14 @@ public class Schedule {
 						StringBuilder raccoonNames = new StringBuilder();
 						for(int k = 0; k < fedRaccoons; k++){
 							raccoonNames.append(raccoons[k].getAnimalName());
-							if(k != fedRaccoons){
+							if(k != fedRaccoons - 1){
 								raccoonNames.append(", ");
 							}
 						}
-						this.scheduleTime.get(i).add("Feeding - raccoon (" + fedRaccoons + ": " + raccoonNames.toString() + ")");
+						this.scheduleTime.get(i).add("* Feeding - raccoon (" + fedRaccoons + ": " + raccoonNames.toString() + ")");
 					}
 				}
-				if(this.hourTimes[i] > Coyote.getCleanTime()){
+				if(this.hourTimes[i] > Coyote.getCleanTime() && this.coyoteCages > 0){
 					int coyoteCageNum = 0;
 					while((hourTimes[i] - Coyote.getCleanTime()) > 0 && this.coyoteCages > 0){
 						this.coyoteCages = this.coyoteCages - 1;
@@ -220,13 +221,13 @@ public class Schedule {
 					StringBuilder coyoteCleaned = new StringBuilder();
 					for(int k = 0; k < coyoteCageNum; k++){
 						coyoteCleaned.append(coyotes[k].getAnimalName());
-						if(k != coyoteCageNum){
+						if(k != coyoteCageNum - 1){
 							coyoteCleaned.append(", ");
 						}
 					}
-					this.scheduleTime.get(i).add("Cage Cleaning - coyote (" + coyoteCageNum + ": " + coyoteCleaned.toString() + ")");
+					this.scheduleTime.get(i).add("* Cage Cleaning - coyote (" + coyoteCageNum + ": " + coyoteCleaned.toString() + ")");
 				}
-				if(this.hourTimes[i] > Fox.getCleanTime()){
+				if(this.hourTimes[i] > Fox.getCleanTime() && this.foxCages > 0){
 					int foxCageNum = 0;
 					while((hourTimes[i] - Fox.getCleanTime()) > 0 && this.foxCages > 0){
 						this.foxCages = this.foxCages - 1;
@@ -236,13 +237,13 @@ public class Schedule {
 					StringBuilder foxCleaned = new StringBuilder();
 					for(int k = 0; k < foxCageNum; k++){
 						foxCleaned.append(foxes[k].getAnimalName());
-						if(k != foxCageNum){
+						if(k != foxCageNum - 1){
 							foxCleaned.append(", ");
 						}
 					}
-					this.scheduleTime.get(i).add("Cage Cleaning - fox (" + foxCageNum + ": " + foxCleaned.toString() + ")");
+					this.scheduleTime.get(i).add("* Cage Cleaning - fox (" + foxCageNum + ": " + foxCleaned.toString() + ")");
 				}
-				if(this.hourTimes[i] > Porcupine.getCleanTime()){
+				if(this.hourTimes[i] > Porcupine.getCleanTime() && this.porcupineCages > 0){
 					int porcupineCageNum = 0;
 					while((hourTimes[i] - Porcupine.getCleanTime()) > 0 && this.porcupineCages > 0){
 						this.porcupineCages = this.porcupineCages - 1;
@@ -252,13 +253,13 @@ public class Schedule {
 					StringBuilder porcupineCleaned = new StringBuilder();
 					for(int k = 0; k < porcupineCageNum; k++){
 						porcupineCleaned.append(porcupines[k].getAnimalName());
-						if(k != porcupineCageNum){
+						if(k != porcupineCageNum - 1){
 							porcupineCleaned.append(", ");
 						}
 					}
-					this.scheduleTime.get(i).add("Cage Cleaning - porcupine (" + porcupineCageNum + ": " + porcupineCleaned.toString() + ")");
+					this.scheduleTime.get(i).add("* Cage Cleaning - porcupine (" + porcupineCageNum + ": " + porcupineCleaned.toString() + ")");
 				}
-				if(this.hourTimes[i] > Beaver.getCleanTime()){
+				if(this.hourTimes[i] > Beaver.getCleanTime() && this.beaverCages > 0){
 					int beaverCageNum = 0;
 					while((hourTimes[i] - Beaver.getCleanTime()) > 0 && this.beaverCages > 0){
 						this.beaverCages = this.beaverCages - 1;
@@ -268,13 +269,13 @@ public class Schedule {
 					StringBuilder beaverCleaned = new StringBuilder();
 					for(int k = 0; k < beaverCageNum; k++){
 						beaverCleaned.append(beavers[k].getAnimalName());
-						if(k != beaverCageNum){
+						if(k != beaverCageNum - 1){
 							beaverCleaned.append(", ");
 						}
 					}
-					this.scheduleTime.get(i).add("Cage Cleaning - beaver (" + beaverCageNum + ": " + beaverCleaned.toString() + ")");
+					this.scheduleTime.get(i).add("* Cage Cleaning - beaver (" + beaverCageNum + ": " + beaverCleaned.toString() + ")");
 				}
-				if(this.hourTimes[i] > Raccoon.getCleanTime()){
+				if(this.hourTimes[i] > Raccoon.getCleanTime() && this.raccoonCages > 0){
 					int raccoonCageNum = 0;
 					while((hourTimes[i] - Raccoon.getCleanTime()) > 0 && this.raccoonCages > 0){
 						this.raccoonCages = this.raccoonCages - 1;
@@ -284,11 +285,11 @@ public class Schedule {
 					StringBuilder raccoonCleaned = new StringBuilder();
 					for(int k = 0; k < raccoonCageNum; k++){
 						raccoonCleaned.append(raccoons[k].getAnimalName());
-						if(k != raccoonCageNum){
+						if(k != raccoonCageNum - 1){
 							raccoonCleaned.append(", ");
 						}
 					}
-					this.scheduleTime.get(i).add("Cage Cleaning - raccoon (" + raccoonCageNum + ": " + raccoonCleaned.toString() + ")");
+					this.scheduleTime.get(i).add("* Cage Cleaning - raccoon (" + raccoonCageNum + ": " + raccoonCleaned.toString() + ")");
 				
 			}
 
