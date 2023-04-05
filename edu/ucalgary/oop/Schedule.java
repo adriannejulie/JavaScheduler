@@ -65,31 +65,35 @@ public class Schedule {
     public void buildSchedule(Task[] tasks, Coyote[] coyotes, Fox[] foxes, Porcupine[] porcupines, Beaver[] beavers, Raccoon[] raccoons) throws VolunteerNeededException, VetNeededException{
 		this.hourTimes = new int[24];
 		this.volunteerHour = -1;
-        this.scheduleTime = new ArrayList<ArrayList<String>>();
-		this.scheduleTasks = new ArrayList<ArrayList<Task>>();
+        this.scheduleTime = new ArrayList<ArrayList<String>>(24);
+		this.scheduleTasks = new ArrayList<ArrayList<Task>>(24);
 		for(int i = 0; i < this.scheduleTime.size(); i++){
 			this.scheduleTime.add(new ArrayList<String>());
 			this.scheduleTasks.add(new ArrayList<Task>());
 			this.hourTimes[i] = 60;
 			this.trueVolunteerHours[i] = false;
         }
-		this.findNumberOfAnimals(coyotes, foxes, porcupines, beavers, raccoons);
+		findNumberOfAnimals(coyotes, foxes, porcupines, beavers, raccoons);
 		this.coyoteCages = this.coyoteNumber;
 		this.foxCages = this.foxNumber;
 		this.porcupineCages = this.porcupineNumber;
 		this.beaverCages = this.beaverNumber;
 		this.raccoonCages = this.raccoonNumber;
-        for(int i = 0; i < this.scheduleTime.size(); i++){
+		getScheduleTime().get(0).add("Test");
+		System.out.println(getScheduleTime().get(0).get(0));
+        for(int i = 0; i < 24; i++){
+			System.out.println("Hour: " + i);
 			for(int l = 0; l < 24; l++){
 				if(trueVolunteerHours[l] == true){
 					this.hourTimes[i] = this.hourTimes[i] + 60;
 				}
 			}
+			System.out.println("Looping through Tasks");
 			for(Task j:tasks){
 				if(j.getStartHour() == i){
 					String animalName = this.findAnimalName(j, coyotes, foxes, porcupines, beavers, raccoons);
 					this.hourTimes[i] = this.hourTimes[i] - j.getDuration();
-					this.scheduleTime.get(i).add(j.getDescription() + " (" + animalName + ")");
+					getScheduleTime().get(i).add(j.getDescription() + " (" + animalName + ")");
 					this.scheduleTasks.get(i).add(j);
 					if(j.getTaskID() == 1){
 						int idx = 0;
@@ -108,6 +112,7 @@ public class Schedule {
 				this.volunteerHour = i;
 			}
 			while(this.hourTimes[i] > 0){
+				System.out.println("Looping?");
 				int fedCoyotes = 0;
 				int[] coyoteFeedingTimes = Coyote.getFeedHour();
 				if(i == coyoteFeedingTimes[0] || i == coyoteFeedingTimes[1] || i == coyoteFeedingTimes[2]){

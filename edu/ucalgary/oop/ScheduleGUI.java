@@ -79,16 +79,18 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
             }
         }); */
         
-         instructions = new JLabel("Would you like to generate the schedule?");
+        instructions = new JLabel("Would you like to generate the schedule?");
          
         JButton generateSchedule = new JButton("Generate Schedule");
         
         generateSchedule.addActionListener(e -> {
                 Client client = new Client(); //creates new client
-                
-                while(true) {
+                boolean continueLoop = true;
+                while(continueLoop) {
                     try{
                         client.buildSchedule();
+                        System.out.println(client.getSchedule().getVolunteerHour());
+                        continueLoop = !continueLoop;
                     } catch (VolunteerNeededException v) {
                         this.volunteerHours = client.getSchedule().getVolunteerHour(); //gets hour that needs a volunteer
                         this.oldStartTime = volunteerHours;
@@ -198,7 +200,7 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
             
         });
 
-         
+        System.out.println("Done building Schedule");
 
         
         
