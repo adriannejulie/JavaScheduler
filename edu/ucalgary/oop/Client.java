@@ -56,10 +56,12 @@ public class Client{
             while (results.next()){
 
                 Coyote newC = new Coyote(results.getInt("animalID"), results.getString("animalNickname"));
+                System.out.println(newC.getAnimalName());
                 coyoteList.add(newC);
             }
             
-            this.coyotes = coyoteList.toArray(this.coyotes);
+            Coyote[] cArr = new Coyote[coyoteList.size()];
+            this.coyotes = coyoteList.toArray(cArr);
 
             myStmt.close();
             results.close();
@@ -80,7 +82,8 @@ public class Client{
                 foxList.add(newF);
             }
             
-            this.foxes = foxList.toArray(this.foxes);
+            Fox[] fArr = new Fox[foxList.size()];
+            this.foxes = foxList.toArray(fArr);
 
             myStmt.close();
             results.close();
@@ -100,8 +103,9 @@ public class Client{
                 Porcupine newP = new Porcupine(results.getInt("animalID"), results.getString("animalNickname"));
                 porcupineList.add(newP);
             }
-            
-            this.porcupines = porcupineList.toArray(this.porcupines);
+
+            Porcupine[] pArr = new Porcupine[porcupineList.size()];
+            this.porcupines = porcupineList.toArray(pArr);
 
             myStmt.close();
             results.close();
@@ -122,7 +126,8 @@ public class Client{
                 beaverList.add(newB);
             }
             
-            this.beavers = beaverList.toArray(this.beavers);
+            Beaver[] bArr = new Beaver[beaverList.size()];
+            this.beavers = beaverList.toArray(bArr);
 
             myStmt.close();
             results.close();
@@ -143,7 +148,8 @@ public class Client{
                 raccoonList.add(newR);
             }
             
-            this.raccoons = raccoonList.toArray(this.raccoons);
+            Raccoon[] rArr = new Raccoon[raccoonList.size()];
+            this.raccoons = raccoonList.toArray(rArr);
 
             myStmt.close();
             results.close();
@@ -168,7 +174,8 @@ public class Client{
 
             }
 
-            this.treatments = taskList.toArray(this.treatments);
+            Task[] tArr = new Task[taskList.size()];
+            this.treatments = taskList.toArray(tArr);
 
             myStmt.close();
             results.close();
@@ -180,9 +187,6 @@ public class Client{
         
         //Initialize a new schedule
         this.schedule = new Schedule();
-
-
-
 
 
 
