@@ -67,11 +67,10 @@ public class Schedule {
 		this.volunteerHour = -1;
         this.scheduleTime = new ArrayList<ArrayList<String>>(24);
 		this.scheduleTasks = new ArrayList<ArrayList<Task>>(24);
-		for(int i = 0; i < this.scheduleTime.size(); i++){
+		for(int i = 0; i < 24; i++){
 			this.scheduleTime.add(new ArrayList<String>());
 			this.scheduleTasks.add(new ArrayList<Task>());
 			this.hourTimes[i] = 60;
-			this.trueVolunteerHours[i] = false;
         }
 		findNumberOfAnimals(coyotes, foxes, porcupines, beavers, raccoons);
 		this.coyoteCages = this.coyoteNumber;
@@ -79,8 +78,6 @@ public class Schedule {
 		this.porcupineCages = this.porcupineNumber;
 		this.beaverCages = this.beaverNumber;
 		this.raccoonCages = this.raccoonNumber;
-		getScheduleTime().get(0).add("Test");
-		System.out.println(getScheduleTime().get(0).get(0));
         for(int i = 0; i < 24; i++){
 			System.out.println("Hour: " + i);
 			for(int l = 0; l < 24; l++){
@@ -97,7 +94,7 @@ public class Schedule {
 					this.scheduleTasks.get(i).add(j);
 					if(j.getTaskID() == 1){
 						int idx = 0;
-						Coyote[] newCoyotes = new Coyote[coyotes.length - 1];
+						Coyote[] newCoyotes = new Coyote[coyotes.length];
 						for(int k = 0; k < coyotes.length; k++){
 							if(j.getAnimalID() != coyotes[k].getAnimalID()){
 								newCoyotes[idx] = coyotes[k];
@@ -111,7 +108,7 @@ public class Schedule {
 			if(this.hourTimes[i] < 0){
 				this.volunteerHour = i;
 			}
-			while(this.hourTimes[i] > 0){
+			//while(this.hourTimes[i] > 0){
 				System.out.println("Looping?");
 				int fedCoyotes = 0;
 				int[] coyoteFeedingTimes = Coyote.getFeedHour();
@@ -124,7 +121,7 @@ public class Schedule {
 							fedCoyotes = fedCoyotes + 1;
 						}
 						StringBuilder coyoteNames = new StringBuilder();
-						for(int k = 0; k <= fedCoyotes; k++){
+						for(int k = 0; k < fedCoyotes; k++){
 							coyoteNames.append(coyotes[k].getAnimalName()).append(", ");
 							if(k != fedCoyotes){
 								coyoteNames.append(", ");
@@ -144,7 +141,7 @@ public class Schedule {
 							fedFoxes = fedFoxes + 1;
 						}
 						StringBuilder foxNames = new StringBuilder();
-						for(int k = 0; k <= fedFoxes; k++){
+						for(int k = 0; k < fedFoxes; k++){
 							foxNames.append(foxes[k].getAnimalName());
 							if(k != fedFoxes){
 								foxNames.append(", ");
@@ -164,7 +161,7 @@ public class Schedule {
 							fedPorcupines = fedPorcupines + 1;
 						}
 						StringBuilder porcupineNames = new StringBuilder();
-						for(int k = 0; k <= fedPorcupines; k++){
+						for(int k = 0; k < fedPorcupines; k++){
 							porcupineNames.append(porcupines[k].getAnimalName());
 							if(k != fedPorcupines){
 								porcupineNames.append(", ");
@@ -184,7 +181,7 @@ public class Schedule {
 							fedBeavers = fedBeavers + 1;
 						}
 						StringBuilder beaverNames = new StringBuilder();
-						for(int k = 0; k <= fedBeavers; k++){
+						for(int k = 0; k < fedBeavers; k++){
 							beaverNames.append(beavers[k].getAnimalName());
 							if(k != fedBeavers){
 								beaverNames.append(", ");
@@ -204,7 +201,7 @@ public class Schedule {
 							fedRaccoons = fedRaccoons + 1;
 						}
 						StringBuilder raccoonNames = new StringBuilder();
-						for(int k = 0; k <= fedRaccoons; k++){
+						for(int k = 0; k < fedRaccoons; k++){
 							raccoonNames.append(raccoons[k].getAnimalName());
 							if(k != fedRaccoons){
 								raccoonNames.append(", ");
@@ -221,7 +218,7 @@ public class Schedule {
 						coyoteCageNum = coyoteCageNum + 1;
 					}
 					StringBuilder coyoteCleaned = new StringBuilder();
-					for(int k = 0; k <= coyoteCageNum; k++){
+					for(int k = 0; k < coyoteCageNum; k++){
 						coyoteCleaned.append(coyotes[k].getAnimalName());
 						if(k != coyoteCageNum){
 							coyoteCleaned.append(", ");
@@ -237,7 +234,7 @@ public class Schedule {
 						foxCageNum = foxCageNum + 1;
 					}
 					StringBuilder foxCleaned = new StringBuilder();
-					for(int k = 0; k <= foxCageNum; k++){
+					for(int k = 0; k < foxCageNum; k++){
 						foxCleaned.append(foxes[k].getAnimalName());
 						if(k != foxCageNum){
 							foxCleaned.append(", ");
@@ -253,7 +250,7 @@ public class Schedule {
 						porcupineCageNum = porcupineCageNum + 1;
 					}
 					StringBuilder porcupineCleaned = new StringBuilder();
-					for(int k = 0; k <= porcupineCageNum; k++){
+					for(int k = 0; k < porcupineCageNum; k++){
 						porcupineCleaned.append(porcupines[k].getAnimalName());
 						if(k != porcupineCageNum){
 							porcupineCleaned.append(", ");
@@ -269,7 +266,7 @@ public class Schedule {
 						beaverCageNum = beaverCageNum + 1;
 					}
 					StringBuilder beaverCleaned = new StringBuilder();
-					for(int k = 0; k <= beaverCageNum; k++){
+					for(int k = 0; k < beaverCageNum; k++){
 						beaverCleaned.append(beavers[k].getAnimalName());
 						if(k != beaverCageNum){
 							beaverCleaned.append(", ");
@@ -285,14 +282,14 @@ public class Schedule {
 						raccoonCageNum = raccoonCageNum + 1;
 					}
 					StringBuilder raccoonCleaned = new StringBuilder();
-					for(int k = 0; k <= raccoonCageNum; k++){
+					for(int k = 0; k < raccoonCageNum; k++){
 						raccoonCleaned.append(raccoons[k].getAnimalName());
 						if(k != raccoonCageNum){
 							raccoonCleaned.append(", ");
 						}
 					}
 					this.scheduleTime.get(i).add("Cage Cleaning - raccoon (" + raccoonCageNum + ": " + raccoonCleaned.toString() + ")");
-				}
+				
 			}
 
 			if(this.volunteerHour != -1 && this.trueVolunteerHours[i] == false){

@@ -239,7 +239,7 @@ public class Client{
             FileWriter outFile = new FileWriter("schedule.txt");
             String header = new String("Schedule for " + LocalDate.now());
             outFile.write(header);
-            outFile.write("\n");
+            outFile.write("\n\n");
             for (ArrayList<String> hour : draftedSch){
 
                 if(hour.size() != 0){
@@ -253,10 +253,12 @@ public class Client{
                         outFile.write(String.format("%d:00", currentHour));
                     }
 
+                    outFile.write("\n");
                     //Print each task in hour
                     for(String taskString : hour){
 
                         outFile.write(taskString);
+                        outFile.write("\n");
                     }
 
                 }

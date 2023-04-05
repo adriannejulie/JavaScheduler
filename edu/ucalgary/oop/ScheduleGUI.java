@@ -83,14 +83,16 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
          
         JButton generateSchedule = new JButton("Generate Schedule");
         
+        
         generateSchedule.addActionListener(e -> {
                 Client client = new Client(); //creates new client
                 boolean continueLoop = true;
                 while(continueLoop) {
                     try{
                         client.buildSchedule();
-                        System.out.println(client.getSchedule().getVolunteerHour());
+                        System.out.println("Done!");
                         continueLoop = !continueLoop;
+                        client.uploadSchedule();
                     } catch (VolunteerNeededException v) {
                         this.volunteerHours = client.getSchedule().getVolunteerHour(); //gets hour that needs a volunteer
                         this.oldStartTime = volunteerHours;
@@ -99,7 +101,7 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
                             client.getSchedule().setTrueVolunteerHoursByIndex(oldStartTime);
 
                             
-                            JOptionPane.showMessageDialog(frame, "Schedule Geneterated as a Text file.");
+                            //JOptionPane.showMessageDialog(frame, "Schedule Geneterated as a Text file.");
                         } else {
                             int vetAvailable = JOptionPane.showConfirmDialog(frame, "No volunteer is available.\nIs a vet available to change the animal's medical requirements?");
                             if (vetAvailable == JOptionPane.YES_OPTION) { //vet is available to change Task start times
@@ -220,7 +222,8 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
         
         frame.setVisible(true);
 
-        client.uploadSchedule();
+        System.out.println("Hola");
+        
        
     }  
 
