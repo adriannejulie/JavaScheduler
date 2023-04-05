@@ -138,7 +138,7 @@ public class Client{
 
         try {                    
             Statement myStmt = dbConnect.createStatement();
-            results = myStmt.executeQuery("SELECT animalID, animalNickname FROM ANIMALS WHERE AnimalSpecies='porcupine'");
+            results = myStmt.executeQuery("SELECT animalID, animalNickname FROM ANIMALS WHERE AnimalSpecies='raccoon'");
             
             ArrayList<Raccoon> raccoonList = new ArrayList<Raccoon>();
 
