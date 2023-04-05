@@ -78,6 +78,7 @@ public class Schedule {
 		this.porcupineCages = this.porcupineNumber;
 		this.beaverCages = this.beaverNumber;
 		this.raccoonCages = this.raccoonNumber;
+		Fox[] foxesToFeed = new Fox[1];
         for(int i = 0; i < 24; i++){
 			System.out.println("Hour: " + i);
 			for(int l = 0; l < 24; l++){
@@ -94,15 +95,17 @@ public class Schedule {
 					getScheduleTime().get(i).add("* " + j.getDescription() + " (" + animalName + ")");
 					this.scheduleTasks.get(i).add(j);
 					if(j.getTaskID() == 1){
-						int idx = 0;
-						Coyote[] newCoyotes = new Coyote[coyotes.length];
-						for(int k = 0; k < coyotes.length; k++){
-							if(j.getAnimalID() != coyotes[k].getAnimalID()){
-								newCoyotes[idx] = coyotes[k];
-								idx++;
+						ArrayList<Fox> foxList = new ArrayList<Fox>();
+						for(Fox f:foxes){
+							if(f.getAnimalName() != animalName){
+								foxList.add(f);
+							}
+							else {
+								this.foxNumber = this.foxNumber - 1;
 							}
 						}
-						coyotes = newCoyotes;
+						Fox[] foxA = new Fox[foxList.size()];
+            			foxesToFeed = foxList.toArray(foxA);
 					}
 				}
 			}
@@ -143,7 +146,7 @@ public class Schedule {
 						}
 						StringBuilder foxNames = new StringBuilder();
 						for(int k = 0; k < fedFoxes; k++){
-							foxNames.append(foxes[k].getAnimalName());
+							foxNames.append(foxesToFeed[k].getAnimalName());
 							if(k != fedFoxes - 1){
 								foxNames.append(", ");
 							}
