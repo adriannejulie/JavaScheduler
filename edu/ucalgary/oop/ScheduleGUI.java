@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
  * ScheduleGUI generates a user interactive application that
@@ -59,7 +60,7 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
             frame.remove(generateSchedule);
                 this.client = new Client(); //creates new client
                 boolean continueLoop = true;
-                while(true){
+                while(continueLoop){
                     try{
                         client.buildSchedule();
                         System.out.println("Done!");
@@ -114,10 +115,12 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
 
                                     vetButtons = new JButton[options.length]; //JButton[] is initialized
                                     for (int i = 0; i < vetButtons.length; i++) {
+                                        final int index = i;
                                         vetButtons[i] = new JButton(options[i]); //each button is given a task description
                                         this.currentTaskOption = this.taskoptions[i];
                                         vetButtons[i].addActionListener(this);
                                     }
+                                    
                                     for (int b = 0; b < vetButtons.length; b++) {
                                         buttonPanel.add(vetButtons[b]);
                                     }
@@ -132,6 +135,15 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
                                         dialog.dispose(); // close the dialog
                                         String input = textField.getText();
                                         this.newTime = Integer.parseInt(input); // convert input to int
+
+                                        this.changeTasks = this.client.getTreatments(); //BRAADEN
+
+                                        for (Task i : this.changeTasks) {
+                                            if (i == currentTaskOption){
+                                                i.setStartHour(this.newTime);
+                                                client.changeMedicalTask(i);
+                                            }
+                                        }
 
                                         // handle new start time
 
@@ -184,18 +196,18 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
     * PARAMATERS: All data called by addActionListener()
     * PROMIMSES: DATA STORED INTO VALUES, NO RETURN VALUE
     */
-    public void actionPerformed(ActionEvent event){
-         //Creating a new task using newTime
-        //take the selected task and create a new task by replacing the Task's startTime
-        //call changeMedicalTask( {the new task here})
-
-        this.changeTasks = this.client.getTreatments(); //BRAADEN
-
-        for (Task i : this.changeTasks) {
-            if (i == currentTaskOption){
-                i.setStartHour(this.newTime);
-                client.changeMedicalTask(i);
-            }
+    public void actionPerformed(ActionEvent e) {
+        // get the source of the event
+        Object source = e.getSource();
+        
+        // check if the source is a button
+        if (source instanceof JButton) {
+            // get the index of the button that was clicked
+            int index = Arrays.asList(vetButtons).indexOf(source);
+            
+            // do something with the index
+            System.out.println("Button at index " + index + " was clicked.");
+            this.currentTaskOption = this.taskoptions[index];
         }
     }
 
