@@ -160,7 +160,7 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
                         }
                     }
                     } catch (VetNeededException ex) {
-                        int vetAvailable = JOptionPane.showConfirmDialog(frame, "Volunteer cannot be called.\nAtleast one or more tasks needs to be modified.\nIs a vet available to change the animal's medical requirements?");
+                        int vetAvailable = JOptionPane.showConfirmDialog(frame, "Volunteer cannot be called.\nAt least one or more tasks needs to be modified.\nIs a vet available to change the animal's medical requirements?");
                             if (vetAvailable == JOptionPane.YES_OPTION) { //vet is available to change Task start times
                                     //call the tasks and assign them to taskoptions
         
@@ -212,7 +212,7 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
                                         String input = textField.getText();
                                         this.newTime = Integer.parseInt(input); // convert input to int
 
-                                        this.changeTasks = this.client.getTreatments(); //BRAADEN
+                                        this.changeTasks = this.client.getTreatments(); 
 
                                         for (Task i : this.changeTasks) {
                                             if (i == currentTaskOption){
@@ -225,7 +225,6 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
                                     buttonPanel.add(okButton);
                                     panel.add(buttonPanel, BorderLayout.SOUTH);
 
-                                    // set dialog size and show it
                                     dialog.pack();
                                     dialog.setLocationRelativeTo(frame);
                                     dialog.setVisible(true);
