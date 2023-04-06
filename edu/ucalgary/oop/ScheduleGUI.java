@@ -1,3 +1,10 @@
+/**
+@author Adrianne Julia Lat
+adriannejulia.lat@ucalgary.ca
+@version 1.9
+@since 1.0
+*/
+
 package edu.ucalgary.oop;
 
 import javax.swing.*;
