@@ -78,11 +78,11 @@ public class Schedule {
 		this.porcupineCages = this.porcupineNumber;
 		this.beaverCages = this.beaverNumber;
 		this.raccoonCages = this.raccoonNumber;
-		Coyote[] coyotesToFeed = new Coyote[1];
-		Fox[] foxesToFeed = new Fox[1];
-		Beaver[] beaversToFeed = new Beaver[1];
-		Porcupine[] porcupinesToFeed = new Porcupine[1];
-		Raccoon[] raccoonsToFeed = new Raccoon[1];
+		Coyote[] coyotesToFeed = coyotes;
+		Fox[] foxesToFeed = foxes;
+		Beaver[] beaversToFeed = beavers;
+		Porcupine[] porcupinesToFeed = porcupines;
+		Raccoon[] raccoonsToFeed = raccoons;
         for(int i = 0; i < 24; i++){
 			System.out.println("Hour: " + i);
 			for(int l = 0; l < 24; l++){
