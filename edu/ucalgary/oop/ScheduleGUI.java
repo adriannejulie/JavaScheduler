@@ -55,7 +55,7 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
     * PARAMATERS: frame: JFrame
     * PROMIMSES: DATA STORED INTO VALUES, NO RETURN VALUE
     */
-    public ScheduleGUI(JPanel panel) {
+    public ScheduleGUI(JFrame frame) {
        /*
         
         instructions = new JLabel("Would you like to generate the schedule?");
@@ -139,7 +139,7 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
                                 frame.add(pane, BorderLayout.CENTER);
     
                         } else {
-                            JOptionPane.showMessageDialog(panel, "Schedule is unable to be generated.");
+                            JOptionPane.showMessageDialog(pane, "Schedule is unable to be generated.");
 
                         }
                     }
@@ -182,9 +182,11 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
                             
 
                             /*Do this need to be here if it's at the bottom? */
+
                             frame.pack();
                             frame.setVisible(true);
                             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
                     
                         }
 
