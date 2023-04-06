@@ -2,7 +2,7 @@ package edu.ucalgary.oop;
 /**
 @author Jordan Vanbeselaere
 jordan.vanbeselaere@ucalgary.ca
-@version 1.0
+@version 1.6
 @since 1.0
 */
 
@@ -84,14 +84,12 @@ public class Schedule {
 		Porcupine[] porcupinesToFeed = porcupines;
 		Raccoon[] raccoonsToFeed = raccoons;
         for(int i = 0; i < 24; i++){
-			System.out.println("Hour: " + i);
 			for(int l = 0; l < 24; l++){
 				if(trueVolunteerHours[l] == true && l == i){
 					this.hourTimes[i] = this.hourTimes[i] + 60;
 				}
 			}
-			System.out.println("HourTime" + this.hourTimes[i]);
-			System.out.println("Looping through Tasks");
+			
 			for(Task j:tasks){
 				if(j.getStartHour() == i){
 					String animalName = this.findAnimalName(j, coyotes, foxes, porcupines, beavers, raccoons);
@@ -166,8 +164,6 @@ public class Schedule {
 			if(this.hourTimes[i] < 0){
 				this.volunteerHour = i;
 			}
-			//while(this.hourTimes[i] > 0){
-				System.out.println("Looping?");
 				int fedCoyotes = 0;
 				int[] coyoteFeedingTimes = Coyote.getFeedHour();
 				if(i == coyoteFeedingTimes[0] || i == coyoteFeedingTimes[1] || i == coyoteFeedingTimes[2]){

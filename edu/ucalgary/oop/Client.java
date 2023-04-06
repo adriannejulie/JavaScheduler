@@ -56,7 +56,6 @@ public class Client{
             while (results.next()){
 
                 Coyote newC = new Coyote(results.getInt("animalID"), results.getString("animalNickname"));
-                System.out.println(newC.getAnimalName());
                 coyoteList.add(newC);
             }
             
