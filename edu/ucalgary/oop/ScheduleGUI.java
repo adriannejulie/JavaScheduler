@@ -1,17 +1,17 @@
 /**
 @author Adrianne Julia Lat
-adruiannejulia.lat@ucalgary.ca
-@version 1.5
+adriannejulia.lat@ucalgary.ca
+@version 1.9
 @since 1.0
 */
 
 package edu.ucalgary.oop;
 
-import java.awt.EventQueue;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
  * ScheduleGUI generates a user interactive application that
@@ -27,226 +27,230 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
     private ArrayList<String> hour;
     private ArrayList<Task> hourTasks;
 
-    private int oldStartTime;
+    private int volunteerHours;
     private  Task[] taskoptions;
     private Task currentTaskOption;
-
-
+    private Client client;
 
     private JLabel instructions;
-    private JPanel pane;
-
-    private JLabel vetInstructionsText;
+    private JLabel closingInstructions;
     private JTextField vetInput;
     private int newTime;
 
     private JButton[] vetButtons;
-    private Client client;
-
-    private int volunteerHours;
-
     private  String[] options;
 
-
-
-    
     /*
     * Constructor that generates schedule, allows for user interaction when time conflicts within the schedule are identified
     * PARAMATERS: frame: JFrame
     * PROMIMSES: DATA STORED INTO VALUES, NO RETURN VALUE
     */
     public ScheduleGUI(JFrame frame) {
-       /*
-        
         instructions = new JLabel("Would you like to generate the schedule?");
+        closingInstructions = new JLabel("Schedule has been generated as a Text File");
+         
+         JButton generateSchedule = new JButton("Generate Schedule");
 
-        JButton generateSchedule = new JButton("Generate Schedule");
-        
         generateSchedule.addActionListener(e -> {
 
-            int volunteerAvailable = JOptionPane.showConfirmDialog(frame, "The schedule requires a volunteer. \nIs a volunteer available?");
-            if (volunteerAvailable == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(frame, "Schedule Geneterated as a Text file.");
-            }
-            else {
-                int vetAvailable = JOptionPane.showConfirmDialog(frame, "No volunteer is available.\nIs a vet available to change the animal's medical requirements?");
-                if (vetAvailable == JOptionPane.YES_OPTION) {
-                    generateSchedule.doClick();
-                }
-                else {
-                    JOptionPane.showMessageDialog(frame, "Schedule cannot be generated with the requirements given.\nPlease change task requirements.");
-                }
-            }
-        }); */
-        
-        instructions = new JLabel("Would you like to generate the schedule?");
-         
-        JButton generateSchedule = new JButton("Generate Schedule");
-         //Layout is not centered :( fix it
-         JPanel panel = new JPanel();
-         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-         panel.add(Box.createVerticalGlue());
-         panel.add(instructions);
-         panel.add(Box.createVerticalStrut(50));
-         panel.add(Box.createHorizontalGlue());
-         panel.add(generateSchedule);
-         panel.add(Box.createHorizontalGlue());
-         panel.add(Box.createVerticalGlue());
-         frame.add(panel);
-         frame.pack();
- 
-         
-         frame.setVisible(true);
-        
-        
-        generateSchedule.addActionListener(e -> {
-                Client client = new Client(); //creates new client
+                this.client = new Client(); //creates new client
                 boolean continueLoop = true;
-                while(continueLoop) {
+                while(continueLoop){
+                    
                     try{
                         client.buildSchedule();
                         System.out.println("Done!");
                         continueLoop = !continueLoop;
                         client.uploadSchedule();
+                        JOptionPane.showMessageDialog(frame, "Schedule Geneterated as a Text file.");
+                     
+                        System.exit(0);
+
+
                     } catch (VolunteerNeededException v) {
+                        
                         this.volunteerHours = client.getSchedule().getVolunteerHour(); //gets hour that needs a volunteer
-                        this.oldStartTime = volunteerHours;
-                        int volunteerAvailable = JOptionPane.showConfirmDialog(frame, "The schedule requires a volunteer at hour: " + oldStartTime + ". \nIs a volunteer available?");
+                       
+                        int volunteerAvailable = JOptionPane.showConfirmDialog(frame, "The schedule requires a volunteer at hour: " + volunteerHours + ". \nIs a volunteer available?\n If you've previously selected no on this panel, please select no again.");
+                        
                         if (volunteerAvailable == JOptionPane.YES_OPTION) { //if user selects YES, a volunteer is a available
-                            
-                            client.getSchedule().setTrueVolunteerHoursByIndex(oldStartTime);
+
+                            client.getSchedule().setTrueVolunteerHoursByIndex(volunteerHours);
 
                             
-                            //JOptionPane.showMessageDialog(frame, "Schedule Geneterated as a Text file.");
-                        } else if (volunteerAvailable == JOptionPane.NO_OPTION){
-                            int vetAvailable = JOptionPane.showConfirmDialog(frame, "No volunteer is available.\nIs a vet available to change the animal's medical requirements?");
+                        } else {
+
+                            //Create buttons using "Generate Schedule" method
+                            int vetAvailable = JOptionPane.showConfirmDialog(frame, "No volunteer is available.\nAtleast one or more of the hour's tasks needs to be modified.\nIs a vet available to change the animal's medical requirements?");
                             if (vetAvailable == JOptionPane.YES_OPTION) { //vet is available to change Task start times
-                                
-                                JPanel pane = new JPanel();  //create a new pop up panel
+                                    //call the tasks and assign them to taskoptions
+        
+                                    this.scheduleTask = client.getSchedule().getScheduleTasks();
+                                    this.hourTasks = this.scheduleTask.get(volunteerHours);
+                                    this.taskoptions = this.hourTasks.toArray(new Task[this.hourTasks.size()]);
+        
+        
+                                    this.schedule = client.getSchedule().getScheduleTime();
+                                    this.hour = this.schedule.get(volunteerHours);
+                                    this.options = this.hour.toArray(new String[this.hour.size()]);
 
-                                pane.setLayout(new GridLayout(2, 2)); //creates a grid of buttons
-    
-                                
-                                /*call the tasks and assign them to taskoptions*/
-    
-                                this.scheduleTask = client.getSchedule().getScheduleTasks();
-                                this.hourTasks = this.scheduleTask.get(oldStartTime);
-                                this.taskoptions = this.hourTasks.toArray(new Task[0]);
-    
-    
-                                this.schedule = client.getSchedule().getScheduleTime();
-                                this.hour = this.schedule.get(oldStartTime);
-                                this.options = this.hour.toArray(new String[this.hour.size()]);
+                                    JPanel buttonPanel = new JPanel(new GridLayout(options.length, 1));
 
-                                vetButtons = new JButton[options.length]; //JButton[] is initialized
-    
-                                ScheduleGUI buttonListener = new ScheduleGUI(frame); //button listener
+                                // create a new JDialog
+                                    JDialog dialog = new JDialog(frame, "Select Task Start Time", true);
+                                    JPanel panel = new JPanel(new BorderLayout());
+                                    dialog.getContentPane().add(panel);
 
-    
-                                for (int i = 0; i < vetButtons.length; i++) {
-                                    vetButtons[i] = new JButton(options[i]); //each button is given a task description
-                                    this.currentTaskOption = this.taskoptions[i];
-                                    vetButtons[i].addActionListener(buttonListener); 
-                                    pane.add(vetButtons[i]); //adds to buttons to the grid
-                                }
+                                    // add label and text field to dialog
+                                    JLabel label = new JLabel("Please enter a start time for the selected task:");
+                                  
+                                    JTextField textField = new JTextField(5);
+                                    JPanel inputPanel = new JPanel();
+                                    inputPanel.add(label);
+                                    inputPanel.add(textField);
+                                    panel.add(inputPanel, BorderLayout.CENTER);
 
-                                vetInstructionsText = new JLabel("Please enter a start time for the selected task");
-                                vetInput = new JTextField("e.g. 4", 3);
-                                vetInput.addMouseListener(this);
+                                    vetButtons = new JButton[options.length]; //JButton[] is initialized
+                                    for (int i = 0; i < vetButtons.length; i++) {
+                                        //final int index = i;
+                                        vetButtons[i] = new JButton(options[i]); //each button is given a task description
+                                        this.currentTaskOption = this.taskoptions[i];
+                                        vetButtons[i].addActionListener(this);
+                                    }
+                                    
+                                    for (int b = 0; b < vetButtons.length; b++) {
+                                        buttonPanel.add(vetButtons[b]);
+                                    }
+                                    frame.add(buttonPanel);
+                                    frame.pack();
 
-                                JPanel clientPanel = new JPanel();
-                                clientPanel.setLayout(new FlowLayout());
-                                clientPanel.add(vetInput);
-                                this.add(clientPanel, BorderLayout.CENTER);
-                                pane.add(vetInstructionsText);
-                                pane.add(vetInput);
-                                pane.add(new JLabel("Please select a task"), BorderLayout.NORTH); //labels
+                                    // add buttons to dialog
+                                   
+                                    JButton okButton = new JButton("Update Schedule");
+                                    okButton.addActionListener(e1 -> {
+                                        // handle OK button action
+                                        dialog.dispose(); // close the dialog
+                                        String input = textField.getText();
+                                        this.newTime = Integer.parseInt(input); // convert input to int
 
-                                frame.getContentPane().add(BorderLayout.NORTH, pane);
+                                        this.changeTasks = this.client.getTreatments(); //BRAADEN
 
-                                System.out.println("BITCH");
+                                        for (Task i : this.changeTasks) {
+                                            if (i == currentTaskOption){
+                                                i.setStartHour(this.newTime);
+                                                client.changeMedicalTask(i);
+                                            }
+                                        }
+                                    });
 
-                                frame.add(pane, BorderLayout.CENTER);
+                                    buttonPanel.add(okButton);
+                                    panel.add(buttonPanel, BorderLayout.SOUTH);
 
-                                frame.add(panel);
-                                
-                                frame.pack();
-                                frame.setVisible(true);
-
-                                
- 
+                                    // set dialog size and show it
+                                    dialog.pack();
+                                    dialog.setLocationRelativeTo(frame);
+                                    dialog.setVisible(true);
     
                         } else {
-                            JOptionPane.showMessageDialog(frame, "Schedule is unable to be generated.");
+                            JOptionPane.showMessageDialog(frame, "Schedule was unable to be geneterated.");
 
+                            System.exit(0);
+                           
+                            
                         }
                     }
                     } catch (VetNeededException ex) {
-                        int vetAvailable = JOptionPane.showConfirmDialog(frame, "No volunteer is available.\nIs a vet available to change the animal's medical requirements?");
-                        if (vetAvailable == JOptionPane.YES_OPTION) { //vet is available to change Task start times
+                        int vetAvailable = JOptionPane.showConfirmDialog(frame, "Volunteer cannot be called.\nAt least one or more tasks needs to be modified.\nIs a vet available to change the animal's medical requirements?");
+                            if (vetAvailable == JOptionPane.YES_OPTION) { //vet is available to change Task start times
+                                    //call the tasks and assign them to taskoptions
+        
+                                    this.scheduleTask = client.getSchedule().getScheduleTasks();
+                                    this.hourTasks = this.scheduleTask.get(volunteerHours);
+                                    this.taskoptions = this.hourTasks.toArray(new Task[this.hourTasks.size()]);
+        
+        
+                                    this.schedule = client.getSchedule().getScheduleTime();
+                                    this.hour = this.schedule.get(volunteerHours);
+                                    this.options = this.hour.toArray(new String[this.hour.size()]);
 
-                            vetInstructionsText = new JLabel("Please enter a start time for the selected task");
-                            vetInput = new JTextField("e.g. 4", 3);
-                            vetInput.addMouseListener(this);
-                            System.out.println("vetInput is: " + vetInput);
+                                    JPanel buttonPanel = new JPanel(new GridLayout(options.length, 1));
 
-                            //newTime = Integer.parseInt(vetInput.getText()); //New start time (integer)
+                                // create a new JDialog
+                                    JDialog dialog = new JDialog(frame, "Select Task Start Time", true);
+                                    JPanel panel = new JPanel(new BorderLayout());
+                                    dialog.getContentPane().add(panel);
 
-                            /*call the tasks and assign them to taskoptions*/
+                                    // add label and text field to dialog
+                                    JLabel label = new JLabel("Please enter a start time for the selected task:");
+                                  
+                                    JTextField textField = new JTextField(5);
+                                    JPanel inputPanel = new JPanel();
+                                    inputPanel.add(label);
+                                    inputPanel.add(textField);
+                                    panel.add(inputPanel, BorderLayout.CENTER);
 
-                            this.scheduleTask = client.getSchedule().getScheduleTasks();
-                            this.hourTasks = this.scheduleTask.get(oldStartTime);
-                            this.taskoptions = (Task[]) this.hourTasks.toArray();
+                                    vetButtons = new JButton[options.length]; //JButton[] is initialized
+                                    for (int i = 0; i < vetButtons.length; i++) {
+                                        //final int index = i;
+                                        vetButtons[i] = new JButton(options[i]); //each button is given a task description
+                                        this.currentTaskOption = this.taskoptions[i];
+                                        vetButtons[i].addActionListener(this);
+                                    }
+                                    
+                                    for (int b = 0; b < vetButtons.length; b++) {
+                                        buttonPanel.add(vetButtons[b]);
+                                    }
+                                    frame.add(buttonPanel);
+                                    frame.pack();
 
+                                    // add buttons to dialog
+                                   
+                                    JButton okButton = new JButton("Update Schedule");
+                                    okButton.addActionListener(e1 -> {
+                                        // handle OK button action
+                                        dialog.dispose(); // close the dialog
+                                        String input = textField.getText();
+                                        this.newTime = Integer.parseInt(input); // convert input to int
 
-                            this.schedule = client.getSchedule().getScheduleTime();
-                            this.hour = this.schedule.get(oldStartTime);
-                            this.options = (String[]) this.hour.toArray();
-                        
-                            pane = new JPanel();  //display those tasks as button options
-                            pane.setLayout(new GridLayout(2, 2)); //creates a grid of buttons
+                                        this.changeTasks = this.client.getTreatments(); 
 
-                            vetButtons = new JButton[options.length]; //JButton[] is initialized
+                                        for (Task i : this.changeTasks) {
+                                            if (i == currentTaskOption){
+                                                i.setStartHour(this.newTime);
+                                                client.changeMedicalTask(i);
+                                            }
+                                        }
+                                    });
 
-                            ScheduleGUI buttonListener = new ScheduleGUI(frame); //button listener
+                                    buttonPanel.add(okButton);
+                                    panel.add(buttonPanel, BorderLayout.SOUTH);
 
-                            for (int i = 0; i < vetButtons.length; i++) {
-                                vetButtons[i] = new JButton(options[i]); //each button is given a task description
-                                this.currentTaskOption = this.taskoptions[i];
-                                vetButtons[i].addActionListener(buttonListener); 
-                                pane.add(vetButtons[i]); //adds to buttons to the grid
-                            }
-                            frame.add(new JLabel("Please select a task"), BorderLayout.NORTH); //labels
-                            frame.getContentPane().add(BorderLayout.NORTH, pane);
+                                    dialog.pack();
+                                    dialog.setLocationRelativeTo(frame);
+                                    dialog.setVisible(true);
+    
+                        } else {
+                            JOptionPane.showMessageDialog(frame, "Schedule was unable to be geneterated.");
 
-                            frame.add(pane, BorderLayout.CENTER);
-                            /*Do this need to be here if it's at the bottom? */
-                            frame.pack();
-                            frame.setVisible(true);
-                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    
+                            System.exit(0);
                         }
-
-                        else {
-                            JOptionPane.showMessageDialog(frame, "Schedule cannot be generated with the requirements given.\nPlease change task requirements.");
-                        }
-                            
-                        
-                        } 
-                }
-            
-            
+                    }   
+                }           
         });
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.add(Box.createVerticalGlue());
+        panel.add(instructions);
+        panel.add(Box.createVerticalStrut(50));
+        panel.add(Box.createHorizontalGlue());
+        panel.add(generateSchedule);
+        panel.add(Box.createHorizontalGlue());
+        panel.add(Box.createVerticalGlue());
+        frame.add(panel);
 
-        System.out.println("Done building Schedule");
-
-        
-        
-       
-
-        System.out.println("Hola");
-        
-       
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 400);
+        frame.setVisible(true);
     }  
 
     /*
@@ -255,19 +259,18 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
     * PARAMATERS: All data called by addActionListener()
     * PROMIMSES: DATA STORED INTO VALUES, NO RETURN VALUE
     */
-    public void actionPerformed(ActionEvent event){
-         //Creating a new task using newTime
-        //take the selected task and create a new task by replacing the Task's startTime
-        //call changeMedicalTask( {the new task here})
-        newTime = Integer.parseInt(vetInput.getText()); //New start time (integer)
-
-        this.changeTasks = client.getTreatments();
-
-        for (Task i : this.changeTasks) {
-            if (i == currentTaskOption){
-                i.setStartHour(this.newTime);
-                client.changeMedicalTask(i);
-            }
+    public void actionPerformed(ActionEvent e) {
+        // get the source of the event
+        Object source = e.getSource();
+        
+        // check if the source is a button
+        if (source instanceof JButton) {
+            // get the index of the button that was clicked
+            int index = Arrays.asList(vetButtons).indexOf(source);
+            
+            // do something with the index
+            System.out.println("Button at index " + index + " was clicked.");
+            this.currentTaskOption = this.taskoptions[index];
         }
     }
 
@@ -304,16 +307,13 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
     public void mouseReleased(MouseEvent event){
         
     }
-
+     
     public static void main(String[] args) {
-        
-        EventQueue.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Schedule Generator");
-            new ScheduleGUI(frame).setVisible(true);
-            frame.setSize(500, 400);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
-            
+            new ScheduleGUI(frame);
         });
     }
     
 }
+
