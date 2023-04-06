@@ -221,9 +221,11 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
 
                             frame.add(pane, BorderLayout.CENTER);
                             /*Do this need to be here if it's at the bottom? */
+
                             frame.pack();
                             frame.setVisible(true);
                             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
                     
                         }
 
