@@ -133,7 +133,7 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
         frame.add(panel);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
+        frame.setSize(270, 200);
         frame.setVisible(true);
     }  
 
@@ -143,6 +143,8 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
     * @param e All data called by addActionListener()
     */
     public void actionPerformed(ActionEvent e) {
+        
+
         // get the source of the event
         Object source = e.getSource();
         
@@ -211,16 +213,23 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
                         // handle OK button action
                         dialog.dispose(); // close the dialog
                         String input = textField.getText();
+                        
+                        try {
+                            int textChecker = Integer.parseInt(input);
+                        } catch (NumberFormatException e){
+                            JOptionPane.showMessageDialog(frame, "Input was not an integer.\nPlease enter an integer.");
+                        } 
                         this.newTime = Integer.parseInt(input); // convert input to int
 
-                        this.changeTasks = this.client.getTreatments(); //BRAADEN
-
-                        for (Task i : this.changeTasks) {
+                        this.changeTasks = this.client.getTreatments(); 
+                       
+                        for (Task i : this.changeTasks ) {
                             if (i == currentTaskOption){
                                 i.setStartHour(this.newTime);
                                 client.changeMedicalTask(i);
                             }
                         }
+                        
                     });
 
                     buttonPanel.add(okButton);
