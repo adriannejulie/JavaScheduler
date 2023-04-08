@@ -1,7 +1,7 @@
 /**
 @author Adrianne Julia Lat
 adriannejulia.lat@ucalgary.ca
-@version 1.9
+@version 2.1
 @since 1.0
 */
 
@@ -216,12 +216,16 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
                         
                         try {
                             int textChecker = Integer.parseInt(input);
+                            boolean validInput = (textChecker >= 0 && textChecker <= 24);
+                            if (validInput) {
+                                this.newTime = Integer.parseInt(input); // convert input to int
+                                this.changeTasks = this.client.getTreatments(); 
+                            } else {
+                                JOptionPane.showMessageDialog(frame, "Input must be a time from 0 to 23 hours.");
+                            }
                         } catch (NumberFormatException e){
-                            JOptionPane.showMessageDialog(frame, "Input was not an integer.\nPlease enter an integer.");
-                        } 
-                        this.newTime = Integer.parseInt(input); // convert input to int
-
-                        this.changeTasks = this.client.getTreatments(); 
+                            JOptionPane.showMessageDialog(frame, "Input was not an integer.\nPlease enter an integer from 0 to 23.");
+                        }
                        
                         for (Task i : this.changeTasks ) {
                             if (i == currentTaskOption){
@@ -257,21 +261,33 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
 
 
     /**
-    * Unused methods that must be present when implementing MouseListener
+    * Unused method that must be present when implementing MouseListener
     * @param event this is the button pressed inside the frame
     */
     public void mouseEntered(MouseEvent event){
         
     }
 
+     /**
+    * Unused method that must be present when implementing MouseListener
+    * @param event this is the button pressed inside the frame
+    */
     public void mouseExited(MouseEvent event){
         
     }
 
+    /**
+    * Unused method that must be present when implementing MouseListener
+    * @param event this is the button pressed inside the frame
+    */
     public void mousePressed(MouseEvent event){
         
     }
 
+    /**
+    * Unused method that must be present when implementing MouseListener
+    * @param event this is the button pressed inside the frame
+    */
     public void mouseReleased(MouseEvent event){
         
     }
