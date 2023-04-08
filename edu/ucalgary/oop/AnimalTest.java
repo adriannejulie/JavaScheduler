@@ -242,24 +242,6 @@ public class AnimalTest {
     
 
 
-    /*public void testRacoonConstructor(){
-        Raccoon r = new Raccoon(1, "raccon");
-        assertNull(r);  
-    }
-    public void testFoxConstructor(){
-        Fox f = new Fox(1,"fox");
-        assertNull(f);
-
-    }
-    public void testPorcupineConstructor(){
-        Porcupine p = new Porcupine(1,"porcupine" );
-        assertNull(p);
-    }
-    public void testBeaverConstructor(){
-        Beaver b = new Beaver(1,"beaver");
-        assertNull(b);
-
-    }*/
 
 
 
