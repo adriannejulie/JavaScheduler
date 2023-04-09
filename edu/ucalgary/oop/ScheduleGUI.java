@@ -66,7 +66,7 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
                         System.out.println("Done!");
                         continueLoop = !continueLoop;
                         client.uploadSchedule();
-                        JOptionPane.showMessageDialog(frame, "Schedule Geneterated as a Text file.");
+                        JOptionPane.showMessageDialog(frame, "Schedule Generated as a Text file.");
                      
                         System.exit(0);
 
@@ -85,13 +85,13 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
                         } else {
 
                             //Create buttons using "Generate Schedule" method
-                            int vetAvailable = JOptionPane.showConfirmDialog(frame, "No volunteer is available.\nAtleast one or more of the hour's tasks needs to be modified.\nIs a vet available to change the animal's medical requirements?");
+                            int vetAvailable = JOptionPane.showConfirmDialog(frame, "No volunteer is available.\nAt least one or more of the hour's tasks needs to be modified.\nIs a vet available to change the animal's medical requirements?");
                             if (vetAvailable == JOptionPane.YES_OPTION) { //vet is available to change Task start times
                                     //call the tasks and assign them to taskoptions
                                     vetImplementation(frame);
                                     
                             } else {
-                                JOptionPane.showMessageDialog(frame, "Schedule was unable to be geneterated.");
+                                JOptionPane.showMessageDialog(frame, "Schedule was unable to be generated.");
 
                                 System.exit(0);
                             
@@ -104,7 +104,7 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
                                     //call the tasks and assign them to taskoptions
                                     vetImplementation(frame);
                             } else {
-                                JOptionPane.showMessageDialog(frame, "Schedule was unable to be geneterated.");
+                                JOptionPane.showMessageDialog(frame, "Schedule was unable to be generated.");
 
                                 System.exit(0);
                             }
