@@ -2,7 +2,7 @@
 /**
 @author Braden Vivas
 braden.vivas@ucalgary.ca
-@version 1.4
+@version 1.5
 @since 1.0
 */
 
@@ -32,9 +32,7 @@ public class Client{
 
     private int volunteerHour;
     /*
-    * Constructor that connects to the MySQL database and retrieves data ***CHANGE USER AND PASS LATER
-    * PARAMATERS: NONE
-    * PROMIMSES: DATA STORED INTO VALUES, NO RETURN VALUE
+    * Constructor that connects to the MySQL database and retrieves data
     */
     public Client(){
 
@@ -193,8 +191,6 @@ public class Client{
 
     /*
      * Creates a schedule which will throw VolunteerNeededException if there are any volunteer needed.
-     * REQUIRES: NONE 
-     * PROMISES: NONE
      */
 
     public void buildSchedule() throws VolunteerNeededException, VetNeededException{
@@ -217,8 +213,6 @@ public class Client{
     }
     /*
     * uploadSchedule() will create a new schedule object with the data obtained. It will throw a VolunteerNeededException which will be passed to the GUI. NOTE THAT THE SCHEDULE OBJECT SHOULD HAVE BE A MATRIX OF FORMATTED STRINGS (set the example .txt file for details)
-    * REQUIRES: NONE
-    * PROMISES: NONE
     */
     public void uploadSchedule(){
 
@@ -280,8 +274,7 @@ public class Client{
 
     /*
     * Changes the old task with the same id as the new given task
-    * REQUIRES: The new task
-    * PROMISES: None
+    * @param newTask the task to be added into the database
     */
     public void changeMedicalTask (Task newTask) {
 
@@ -290,18 +283,40 @@ public class Client{
         int i = 0;
 
         for (Task task : taskList){
-            if (task.getTaskID() == newTask.getTaskID()){
-                
+
+            if (task.getTaskID() == newTask.getTaskID() && task.getAnimalID() == newTask.getAnimalID()){
+
                 taskList.set(i, task);
+
+                try {
+            
+                    String query = "UPDATE TREATMENTS SET StartHour = ? WHERE TaskID = ? AND AnimalID = ?";
+                    PreparedStatement myStmt = dbConnect.prepareStatement(query);
+                    
+                    myStmt.setString(1, Integer.toString(newTask.getStartHour()));
+                    myStmt.setString(2, Integer.toString(task.getTaskID()));
+                    myStmt.setString(3, Integer.toString(task.getAnimalID()));
+                    
+                    myStmt.executeUpdate();
+                    
+                    myStmt.close();
+        
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
                 break;
-            }
+           
+            
+            }    
             i++;
         }
 
         Task[] taskArr = new Task[taskList.size()];
         this.treatments = taskList.toArray(taskArr);
-
     }
+
+
+
 
 
     /*
@@ -320,8 +335,8 @@ public class Client{
     public void setTreatments(Task[] newTasks){ this.treatments = newTasks;}
     /*
      * Returns all tasks that match the given id. 
-     * REQUIRES: The id of the wanted task(s)
-     * PROMISES: An ArrayList of treatments that matches the given id
+     * @param id The id of the wanted task(s)
+     * @return an ArrayList of treatments that matches the given id
      */
 
     public ArrayList<Task> getTasks(int id){
@@ -344,8 +359,6 @@ public class Client{
 
     /*
      * Close() closes the connection to the database.
-     * REQUIRES: NONE
-     * PROMISES: NONE
      */
 
     public void close(){
