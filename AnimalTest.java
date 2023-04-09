@@ -6,10 +6,15 @@
  */
 
 
-
-package edu.ucalgary.oop;
-
 import org.junit.Test;
+
+import edu.ucalgary.oop.Animal;
+import edu.ucalgary.oop.Beaver;
+import edu.ucalgary.oop.Coyote;
+import edu.ucalgary.oop.Fox;
+import edu.ucalgary.oop.Porcupine;
+import edu.ucalgary.oop.Raccoon;
+
 import static org.junit.Assert.*;
 
 import java.io.*;
