@@ -28,16 +28,16 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
     private ArrayList<Task> hourTasks;
 
     private int volunteerHours;
-    private  Task[] taskoptions;
-    private Task currentTaskOption;
-    private Client client;
+    public  Task[] taskoptions;
+    public Task currentTaskOption;
+    public Client client;
 
     public JLabel instructions;
     public JLabel closingInstructions;
     private JTextField vetInput;
     private int newTime;
 
-    private JButton[] vetButtons;
+    public JButton[] vetButtons;
     private  String[] options;
 	public Object generateSchedule;
 
