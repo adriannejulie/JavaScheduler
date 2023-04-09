@@ -1,15 +1,12 @@
-<<<<<<< HEAD
-Schedule for 2023-04-07
+Schedule for 2023-04-05
 
 0:00
 * Kit feeding (Annie, Oliver and Mowgli)
-* Give vitamin injection (Bitter)
-* Give vitamin injection (Pencil)
-* Feeding - fox (1: Slinky)
-* Cage Cleaning - coyote (1: Loner)
+* Feeding - fox (2: Annie, Oliver and Mowgli, Slinky)
+* Cage Cleaning - coyote (2: Loner, Biter)
 
 1:00
-* Cage Cleaning - coyote (7: Loner, Biter, Bitter, Pencil, Eraser, Boots, Spin)
+* Cage Cleaning - coyote (6: Loner, Biter, Bitter, Pencil, Eraser, Boots)
 * Cage Cleaning - fox (2: Annie, Oliver and Mowgli, Slinky)
 
 2:00
@@ -21,30 +18,6 @@ Schedule for 2023-04-07
 
 4:00
 * Kit feeding (Annie, Oliver and Mowgli)
-=======
-Schedule for 2023-04-06
-
-0:00
-* Kit feeding (Annie, Oliver and Mowgli)
-* Feeding - fox (1: Slinky)
-* Cage Cleaning - coyote (3: Loner, Biter, Bitter)
-
-1:00
-* Cage Cleaning - coyote (5: Loner, Biter, Bitter, Pencil, Eraser)
-* Cage Cleaning - fox (2: Annie, Oliver and Mowgli, Slinky)
-* Cage Cleaning - porcupine (1: Spike)
-
-2:00
-* Kit feeding (Annie, Oliver and Mowgli)
-* Eyedrops (Biter)
-
-3:00
-* Cage Cleaning - porcupine (4: Spike, Javelin, Gatekeeper, Sunshine)
-
-4:00
-* Kit feeding (Annie, Oliver and Mowgli)
-* Give vitamin injection (Bitter)
->>>>>>> main
 
 
 6:00
@@ -52,11 +25,6 @@ Schedule for 2023-04-06
 * Administer antibiotics (Spike)
 * Flush neck wound (Spike)
 
-<<<<<<< HEAD
-=======
-7:00
-* Inspect broken leg (Biter)
->>>>>>> main
 
 8:00
 * Kit feeding (Annie, Oliver and Mowgli)
@@ -69,20 +37,14 @@ Schedule for 2023-04-06
 12:00
 * Kit feeding (Annie, Oliver and Mowgli)
 
-<<<<<<< HEAD
 13:00 [+ backup volunteer]
+* Give vitamin injection (Bitter)
+* Give vitamin injection (Pencil)
 * Give vitamin injection (Eraser)
 * Mange treatment (Spin)
 * Mange treatment (Spot)
 * Eyedrops (Biter)
 * Inspect broken leg (Biter)
-=======
-13:00
-* Give vitamin injection (Pencil)
-* Give vitamin injection (Eraser)
-* Mange treatment (Spin)
-* Mange treatment (Spot)
->>>>>>> main
 * Inspect broken leg (Spin)
 
 14:00
