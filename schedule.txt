@@ -36,15 +36,22 @@ Schedule for 2023-04-06
 
 2:00
 * Kit feeding (Annie, Oliver and Mowgli)
+<<<<<<< HEAD
 * Eyedrops (Biter)
+=======
+* Cage Cleaning - porcupine (2: Spike, Javelin)
+>>>>>>> 3f33b2cbd5bd859d84225db0832bb076eac98d1f
 
 3:00
-* Cage Cleaning - porcupine (4: Spike, Javelin, Gatekeeper, Sunshine)
+* Cage Cleaning - porcupine (2: Spike, Javelin)
 
 4:00
 * Kit feeding (Annie, Oliver and Mowgli)
+<<<<<<< HEAD
 * Give vitamin injection (Bitter)
 >>>>>>> main
+=======
+>>>>>>> 3f33b2cbd5bd859d84225db0832bb076eac98d1f
 
 
 6:00
@@ -70,7 +77,13 @@ Schedule for 2023-04-06
 * Kit feeding (Annie, Oliver and Mowgli)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 13:00 [+ backup volunteer]
+=======
+13:00 [+ backup volunteer]
+* Give vitamin injection (Bitter)
+* Give vitamin injection (Pencil)
+>>>>>>> 3f33b2cbd5bd859d84225db0832bb076eac98d1f
 * Give vitamin injection (Eraser)
 * Mange treatment (Spin)
 * Mange treatment (Spot)
@@ -108,6 +121,7 @@ Schedule for 2023-04-06
 * Feeding - coyote (3: Loner, Biter, Bitter)
 
 21:00
+* Kit feeding (Annie, Oliver and Mowgli)
 * Feeding - porcupine (5: Spike, Javelin, Gatekeeper, Sunshine, Shadow)
 
 22:00 [+ backup volunteer]
