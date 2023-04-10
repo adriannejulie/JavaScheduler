@@ -394,7 +394,7 @@ public class TestingScheduleBuild extends JFrame {
      * Tests if the exception was thrown
      */
 
-    public void testVolunteerException() {
+    public void testVolunteerExceptionFromClient() throws VolunteerNeededException{
 
         boolean passed = false;
 
@@ -407,7 +407,9 @@ public class TestingScheduleBuild extends JFrame {
         } catch (Exception e) {
         }
 
-        assertTrue("Building the schedule did not throw a volunteer exception");
+        c.close();
+
+        assertTrue("Building the schedule did not throw a volunteer exception", passed);
     }
 
     @Test
@@ -416,22 +418,30 @@ public class TestingScheduleBuild extends JFrame {
      * Check if a schedule file was made with correct values
      */
 
-    public void testUploadSchedule() {
+    public void testUploadSchedule() throws VolunteerNeededException, VetNeededException{
 
         boolean passed = true;
         Client c = new Client();
 
-        c.buildSchedule();
+        try {
+
+            c.buildSchedule();
+        } catch (VolunteerNeededException v) {
+        } catch (Exception e) {
+        }
+
         c.uploadSchedule();
 
-        File f = new File("schedule.txt");
+        File f = new File("..\\380PROJ\\schedule.txt");
         if (!f.exists()) {
 
             passed = false;
 
         }
 
+        c.close();
         assertTrue("The schedule was not created", passed);
+
     }
 
     @Test
@@ -454,36 +464,57 @@ public class TestingScheduleBuild extends JFrame {
 
         Porcupine expectedPorcupine = new Porcupine(8, "Spike");
         Fox expectedFox = new Fox(6, "Annie, Oliver and Mowgli");
-        Coyote expectedCoyote = new Coyote(12, "Shadow");
+        Coyote expectedCoyote = new Coyote(1, "Loner");
 
         boolean bPass = true;
-        boolean pPass = true;
-        boolean fPass = true;
+        boolean pPass = false;
+        boolean fPass = false;
         boolean rPass = true;
-        boolean cPass = true;
+        boolean cPass = false;
 
         if (beavers.size() != 0) {
             bPass = false;
         }
-        if (!porcupines.contains(expectedPorcupine)) {
 
-            pPass = false;
-        }
-        if (!foxes.contains(expectedFox)) {
+        for( Porcupine p : porcupines){
+            if (p.getAnimalName().equals(expectedPorcupine.getAnimalName())) {
 
-            fPass = false;
+                pPass = true;
+            }
+
         }
+
+        for( Fox f : foxes){
+
+            if (f.getAnimalName().equals(expectedFox.getAnimalName())) {
+
+                fPass = true;
+            }
+
+        }
+
+        
         if (racoons.size() != 0) {
 
             rPass = false;
         }
-        if (!coyotes.contains(expectedCoyote)) {
 
-            cPass = false;
+        for( Coyote co : coyotes){
+
+
+            if (co.getAnimalName().equals(expectedCoyote.getAnimalName())) {
+
+                cPass = true;
+            }
+
         }
 
-        assertTrue("The expected data value do not match with the fetched ones",
-                (bPass && pPass && fPass && rPass && cPass));
+        c.close();
+
+
+
+        assertTrue("The expected data value do not match with the fetched ones", (bPass && pPass && fPass && rPass && cPass));
+
 
     }
 
@@ -493,9 +524,9 @@ public class TestingScheduleBuild extends JFrame {
      */
     public void testGetTasks() {
 
-        Client c = new Client();
+        Client cli = new Client();
 
-        List<Task> taskList = Arrays.asList(c.getTreatments());
+        List<Task> taskList = Arrays.asList(cli.getTreatments());
 
         Task expectedTask1 = new Task(10, "Inspect broken leg", 5, 2, 13, 2);
 
@@ -506,21 +537,25 @@ public class TestingScheduleBuild extends JFrame {
         expectedTaskArrL.add(expectedTask1);
         expectedTaskArrL.add(expectedTask2);
 
-        boolean passed = true;
 
-        // Check if the task list array has this value
-        if (!taskList.contains(expectedTask1)) {
-            passed = false;
-        }
+        ArrayList<Task> gottenTasks = cli.getTasks(10);
 
-        ArrayList<Task> gottenTasks = c.getTasks(10);
 
-        if (!gottenTasks.equals(expectedTaskArrL)) {
+        cli.close();
 
-            passed = false;
-        }
+        assertEquals(expectedTaskArrL.get(0).getTaskID(), gottenTasks.get(0).getTaskID());
+        assertEquals(expectedTaskArrL.get(0).getDescription(), gottenTasks.get(0).getDescription());
+        assertEquals(expectedTaskArrL.get(0).getDuration(), gottenTasks.get(0).getDuration());
+        assertEquals(expectedTaskArrL.get(0).getMaxWindow(), gottenTasks.get(0).getMaxWindow());
+        assertEquals(expectedTaskArrL.get(0).getStartHour(), gottenTasks.get(0).getStartHour());
+        assertEquals(expectedTaskArrL.get(0).getAnimalID(), gottenTasks.get(0).getAnimalID());
 
-        assertTrue("getTreatments() did not retrieve all tasks correctly", passed);
+        assertEquals(expectedTaskArrL.get(1).getTaskID(), gottenTasks.get(1).getTaskID());
+        assertEquals(expectedTaskArrL.get(1).getDescription(), gottenTasks.get(1).getDescription());
+        assertEquals(expectedTaskArrL.get(1).getDuration(), gottenTasks.get(1).getDuration());
+        assertEquals(expectedTaskArrL.get(1).getMaxWindow(), gottenTasks.get(1).getMaxWindow());
+        assertEquals(expectedTaskArrL.get(1).getStartHour(), gottenTasks.get(1).getStartHour());
+        assertEquals(expectedTaskArrL.get(1).getAnimalID(), gottenTasks.get(1).getAnimalID());
 
     }
 

@@ -344,7 +344,7 @@ public class Client{
 
         ArrayList<Task> matchingTasks = new ArrayList<Task>();
 
-        for (Task task : treatments){
+        for (Task task : this.treatments){
 
             if (task.getTaskID() == id){
 
