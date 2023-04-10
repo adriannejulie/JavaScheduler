@@ -48,7 +48,7 @@ public class Schedule {
     }
 
 	/**
-     * sets the value of the internal ArrayList<String>'s of the 
+     * sets the value of the internal ArrayList of String's of the 
 	 * scheduleTime attribute, while maintaining that the collection
 	 * of tasks doesn't exceed 1 hour. Each hour prioritizes tasks 
 	 * within the passed Task[], followed by feeding time for each
@@ -61,6 +61,8 @@ public class Schedule {
 	 * @param porcupines an array of Porcupine objects within the system
 	 * @param beavers an array of Beaver objects within the system
 	 * @param raccoons an array of raccoon objects within the system
+	 * @throws VolunteerNeededException when in given hour's tasks exceed 60 min
+	 * @throws VetNeededException when a schedule cannot be created at all
      */
     public void buildSchedule(Task[] tasks, Coyote[] coyotes, Fox[] foxes, Porcupine[] porcupines, Beaver[] beavers, Raccoon[] raccoons) throws VolunteerNeededException, VetNeededException{
 		this.hourTimes = new int[24];
@@ -456,27 +458,27 @@ public class Schedule {
 
 
 	 /**
-     * returns the private ArrayList<Integer> volunteerHour
+     * returns the private ArrayList of Integers, volunteerHour
 	 * 
-	 * @return the ArrayList<Integer> volunteerHour of the Schedule object
+	 * @return the ArrayList of Integers, volunteerHour of the Schedule object
      */
 	public int getVolunteerHour(){
 		return this.volunteerHour;
 	}
 	
 	/**
-     * returns the private ArrayList<String>[] scheduleTime
+     * returns the private ArrayList of String[] scheduleTime
 	 * 
-	 * @return the ArrayList<String>[] scheduleTime of the Schedule object
+	 * @return the ArrayList of String[] scheduleTime of the Schedule object
      */
 	public ArrayList<ArrayList<String>> getScheduleTime(){
 		return this.scheduleTime;
 	}
 
 	/**
-     * returns the private ArrayList<Task>[] scheduleTasks
+     * returns the private ArrayList of Task[] scheduleTasks
 	 * 
-	 * @return the ArrayList<Task>[] scheduleTasks of the Schedule object
+	 * @return the ArrayList of Task[] scheduleTasks of the Schedule object
      */
 	public ArrayList<ArrayList<Task>> getScheduleTasks(){
 		return this.scheduleTasks;

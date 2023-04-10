@@ -138,7 +138,7 @@ public class ScheduleGUI extends JFrame implements MouseListener, ActionListener
     }  
 
     /**
-    * Createsa new task using data passed in by the JButton pressed inside the constructor
+    * Creates a new task using data passed in by the JButton pressed inside the constructor
     * Changes Task start time by accessing changeMedicalTask() from Client class
     * @param e All data called by addActionListener()
     */

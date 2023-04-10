@@ -1,4 +1,4 @@
-
+package edu.ucalgary.oop;
 /**
 @author Braden Vivas
 braden.vivas@ucalgary.ca
@@ -6,12 +6,12 @@ braden.vivas@ucalgary.ca
 @since 1.0
 */
 
-package edu.ucalgary.oop;
+
 import java.sql.*;
 import java.util.*;
 import java.io.*;
 import java.time.*;
-/*
+/**
 * Client is a client for the user to interact with that generates a schedule based on the database provided
 * After called by the GUI, the client is created
 */
@@ -31,7 +31,7 @@ public class Client{
 
 
     private int volunteerHour;
-    /*
+    /**
     * Constructor that connects to the MySQL database and retrieves data
     */
     public Client(){
@@ -189,8 +189,11 @@ public class Client{
 
     }
 
-    /*
+    /**
      * Creates a schedule which will throw VolunteerNeededException if there are any volunteer needed.
+     * 
+     * @throws VolunteerNeededException throws the volunteerNeededException given from Schedule
+     * @throws VetNeededException throws the exception given from Schedule
      */
 
     public void buildSchedule() throws VolunteerNeededException, VetNeededException{
@@ -211,7 +214,7 @@ public class Client{
         }
 
     }
-    /*
+    /**
     * uploadSchedule() will create a new schedule object with the data obtained. It will throw a VolunteerNeededException which will be passed to the GUI. NOTE THAT THE SCHEDULE OBJECT SHOULD HAVE BE A MATRIX OF FORMATTED STRINGS (set the example .txt file for details)
     */
     public void uploadSchedule(){
@@ -272,7 +275,7 @@ public class Client{
 
     }
 
-    /*
+    /**
     * Changes the old task with the same id as the new given task
     * @param newTask the task to be added into the database
     */
@@ -333,7 +336,9 @@ public class Client{
     public Beaver[] getBeavers() {return this.beavers;}
     public Schedule getSchedule() {return this.schedule;}
     public void setTreatments(Task[] newTasks){ this.treatments = newTasks;}
-    /*
+
+
+    /**
      * Returns all tasks that match the given id. 
      * @param id The id of the wanted task(s)
      * @return an ArrayList of treatments that matches the given id
@@ -357,7 +362,7 @@ public class Client{
 
     }
 
-    /*
+    /**
      * Close() closes the connection to the database.
      */
 
